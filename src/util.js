@@ -31,9 +31,6 @@ function pad(xs, fillVal, len) {
 
 function capitalize(text) {
     // Convert first letter of word to uppercase
-    if( text == undefined ) {
-        return "";
-    } else 
     return text[0].toUpperCase() + text.slice(1);
 }
 

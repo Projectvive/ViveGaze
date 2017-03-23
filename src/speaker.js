@@ -9,11 +9,9 @@
 
 const _ = require("underscore");
 
-// Exports.
-module.exports = speaker;
 
 // A shared audio context
-function speaker(settings) {
+function speaker() {
     // Constructor function that creates a speaker object. The constructor takes
     // a settings object so that the speaker can determine the current language
     // being spoken. The speaker will update itself, and the list of available
@@ -25,52 +23,17 @@ function speaker(settings) {
     const audioContext = new window.AudioContext();
     let voice;           // The current voice being used by the speaker.
     let voices;          // All available voices for the current language.
-    let voiceElem = document.querySelector("select[name=voice]");
-    let demoElem = document.querySelector("input[type=button][name=demo]");
-
     // Private methods
-    const getLanguage = settings.getLanguageSettings().getLanguage;
-    function demo() {
-        // Speak a demo with the current voice.
-        const msg = { en: `Hello, my name is ${voice.name}`,
-                      fr: `Bonjour, mon nom est ${voice.name}`,
-                      es: `Hola, me llamo ${voice.name}`};
-        speakSync(msg[getLanguage()], voice);
-    }
-    function clearVoices() {
-        // Clear all voices from the dropdown menu. To be executed when the user switches languages.
-        let options = voiceElem.options;
-        let nvoices = options.length;
-        [].reverse.call(_.range(nvoices)).forEach((i) => options[i] = null);
-    }
+    const getLanguage = () => "en";
 
     function initVoices() {
-        // Initialize the voices in the dropdown menu and register event handlers.
-        voiceElem.addEventListener("change", setVoice);      // Set voice when selection made.
-        demoElem.addEventListener("click", demo);            // Speak current voice as demo.
-        updateVoices();
-    }
-
-    function updateVoices() {
-        // To be invoked the list of voices is initialized, and after the user changes languages.
-        function each(entry, ix) {
-            // Performed for each entry in the array of voices.
-            let name = entry.name;
-            let opt = document.createElement("option");
-            opt.value = ix;
-            opt.text = name;
-            voiceElem.add(opt);
-        }
         const correctLanguage = (voice) => voice.lang.includes(getLanguage());
-        clearVoices();
+
         voices = window.speechSynthesis.getVoices().filter(correctLanguage);
-        voices.forEach(each);
         setVoice(voices);
     }
     function setVoice() {
-        // Call this whenever the user changes the voice button.
-        let ix = parseInt(voiceElem.value);
-        voice = voices[ix];
+        voice = voices[0];
     }
 
     // Public methods
@@ -82,10 +45,6 @@ function speaker(settings) {
         //           text. The speaker asks the settings object for the current
         //           language and looks up the correct text for this langauge.
         let toSpeak = _.isString(text) ? text : text[getLanguage()];
-        
-        if( toSpeak == "undefined" ) {
-            toSpeak = text["en"];
-        }
         let utterance = new window.SpeechSynthesisUtterance(toSpeak.toLowerCase());
         utterance.lang = getLanguage();
         utterance.voice = voice;
@@ -93,7 +52,8 @@ function speaker(settings) {
         return utterance;
     }
 
-    function speakAsync(text, cb, element, delay = 1000) {
+    let utterancehandle;
+    function speakAsync(text, cb, delay = 1000) {
         // Speak the text, asynchronously. When finished, this procedure invokes a
         // callback to continue the program.
         // Note that a DOM element is passed in. The speech event is stored on the
@@ -102,9 +62,12 @@ function speaker(settings) {
         function afterRead() {
             setTimeout(cb, delay);
         }
+
+        window.speechSynthesis.cancel()
+
         let utterance = speakSync(text);
         utterance.addEventListener("end", afterRead);
-        element.utterance = utterance;
+        utterancehandle = utterance;
     }
 
     function beep(freq, duration) {
@@ -142,7 +105,7 @@ function speaker(settings) {
     }
 
     // Register event listeners.
-    settings.getLanguageSettings().addChangeListener(updateVoices); // If the user changes the language, change the voices.
+    // settings.getLanguageSettings().addChangeListener(updateVoices); // If the user changes the language, change the voices.
     window.speechSynthesis.addEventListener("voiceschanged", initVoices); // Initialize voices once the page has loaded them.
 
     // Return an object with the relevant methods
@@ -152,3 +115,6 @@ function speaker(settings) {
              toneStart,
              toneStop };
 }
+
+// Exports.
+module.exports = speaker;

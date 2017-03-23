@@ -1,6 +1,7 @@
 "use strict";
 
 // npm imports
+
 const EventEmitter = require("events");
 
 // File imports
@@ -58,29 +59,22 @@ function buffer(speaker) {
 
     // Local variables
     let emitter = new EventEmitter();
-    let bufferElem = document.getElementById("bufferContainer");
-    let textElem = bufferElem.querySelector("p");
     let bufferText = CURSOR;
-    let fontSizeElem = document.querySelector("input[type=number][name=fontSize]");
 
     // ********************************************************************** //
 
     // Elementary buffer operations
 
-    const getText = () => bufferText.slice(0, -1);
+    const getText = () => bufferText.slice(0);
 
     const emitChange = () => emitter.emit("bufferChange");
 
-    const update = () => textElem.textContent = bufferText; // Update text displayed in the DOM element.
-
     function push(str) {         // Push a string onto the buffer.
         bufferText += str;
-        update();
     }
 
     function pop() {        // Pop a character off the end of the buffer.
         bufferText = bufferText.slice(0, -1);
-        update();
     }
 
     const isTerminalPunctuation = (char) => char.match(/[.!?]/) !== null;
@@ -93,12 +87,6 @@ function buffer(speaker) {
                 (text.slice(-1) === " " &&
                  isTerminalPunctuation(text.slice(-2))));
     }
-
-    function updateFontSize() {
-        let size = fontSizeElem.value + "px";
-        bufferElem.style.fontSize = size;
-    }
-    fontSizeElem.addEventListener("change", updateFontSize); // Listen for font size changes and update as needed.
 
     // ********************************************************************** //
 
@@ -156,8 +144,7 @@ function buffer(speaker) {
     registerAction("delete", deleteText);
 
     function readBuffer(cb) {
-        let afterBeep = () => speaker.speakAsync(getText(), cb,
-                                                 bufferElem, AFTER_READ_WAIT);
+        let afterBeep = () => speaker.speakAsync(getText().slice(0, -1), cb, AFTER_READ_WAIT);
         speaker.beep(BEEP_FREQ, BEEP_DURATION);
         setTimeout(afterBeep, BEEP_DURATION + AFTER_BEEP_WAIT);
     }
@@ -193,7 +180,5 @@ function buffer(speaker) {
     };
 
     // Initialize and return
-    updateFontSize();
-    update();
     return that;
 }
