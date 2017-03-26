@@ -14,7 +14,7 @@ Wedjat requires that the following software be installed:
 
 ### Package dependencies
 
-Clone the repository. Change to the repository directory and execute the following to install the requisite packages from npm:
+Clone the repository. Change to the repository directory and execute the following in the command prompt to install the requisite packages from npm:
 
 ```
 npm install
@@ -22,10 +22,14 @@ npm install
 
 ## Running the program
 
-From the main wedjat directory, enter:
+From the main Gaze Detector directory, enter:
 
 ```
-node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron .
+\node_modules\electron-prebuilt\dist\electron.exe path-to-your-app
+
+'path-to-your-app' - the path to the Gaze Detector directory. 
+
+Alternatively you can drag the Gaze Detector folder into the electron.exe file which will also open up the app
 ```
 
 ## The Wedjat Wiki
