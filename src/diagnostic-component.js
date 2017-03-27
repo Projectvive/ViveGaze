@@ -7,12 +7,12 @@ const radium = require("radium");
 class Diagnostics extends React.Component {
   constructor(props) {
     super(props);
-    const DEFAULT_SCAN = 1.2;
-    const DEFAULT_GAZE = .5;
+
+    this.settings = props.set;
 
     this.state = {
-      scanSliderValue: DEFAULT_SCAN,
-      gazeSliderValue: DEFAULT_GAZE,
+      scanSliderValue: this.settings.scanSpeed,
+      gazeSliderValue: this.settings.gazeSpeed,
       lastEventLength: null
     }
 
@@ -21,10 +21,12 @@ class Diagnostics extends React.Component {
   set(elem) {
     switch(elem) {
       case "scanspeed":
-        this.setState({scanSliderValue: this.scanSlider.value});
+        this.settings.scanSpeed = this.scanSlider.value;
+        this.setState({scanSliderValue: this.settings.scanSpeed});
         break;
       case "gazespeed":
-        this.setState({gazeSliderValue: this.gazeSlider.value});
+        this.settings.gazeSpeed = this.gazeSlider.value;
+        this.setState({gazeSliderValue: this.settings.gazeSpeed});
         break;
       default:
         console.log("unidendified setting: " + elem);

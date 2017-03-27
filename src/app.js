@@ -8,26 +8,13 @@ import Radium from "radium";
 import GazeDetector from "./detector.js";
 const buffer = require("./buffer.js");
 const speaker = require("./speaker.js");
+const settings = require("./settings.js");
 
 const Message = require("./message-component.js");
 const CommBoard = require("./commboard-component.js");
 const Video = require("./video-component.js");
 const Diagnostics = require("./diagnostic-component.js");
 
-const langEN = {
-    blinkSpeed: "Blink Speed",
-    capture: "Capture",
-    gaze: "Gaze",
-    language: "Language",
-    lastEvent: "Last Event",
-    layout: "Layout",
-    rest: "Rest",
-    scanSpeed: "Scan Speed",
-    settings: "Settings",
-    start: "Start",
-    stop: "Stop",
-    videofeed: "Video Feed"
-}
 //Ryan Campbell
 //The root view component, as well as the app controller
 class App extends React.Component {
@@ -35,28 +22,85 @@ class App extends React.Component {
         super();
         
         this.sp = speaker();
+        let set = settings();
 
         this.row = null;
         this.button = null;
         this.scan = null;
+        this.scanSpeed = set.scanSpeed;
 
         this.state = {
+            settings: set,
+            lang: set.lang,
             buf: buffer(this.sp),
-            det: null,
-            i: 7
+            det: null
+        }
+
+        //protect the scope of the listeners
+        this.startTone = this.startTone.bind(this);
+        this.stopTone = this.stopTone.bind(this);
+        this.settingsListener = this.settingsListener.bind(this);
+        this.detectorListener = this.detectorListener.bind(this);
+    }
+
+    //LISTENERS
+    //RC- start the rising tone at gazeBegin events
+    startTone() {
+        this.sp.toneStart(this.state.settings.gazeSpeed * 1000);
+    }
+    //RC- stop the rising tone at gazeEnd events
+    stopTone() {
+        this.sp.toneStop();
+    }
+    //RC- listen for changes to the settings
+    settingsListener() {
+        if(this.state.lang != this.state.settings.lang) {//maybe change the language
+            this.setState({lang: this.state.settings.lang});
+        }
+
+        if(this.scanSpeed != this.state.settings.scanSpeed) {
+            this.scanSpeed = this.state.settings.scanSpeed;
+            this.stopScan();
+            this.startScan();
         }
     }
     //RC- listen for gaze events from the detector.
-    listener() {
-        const LONG_GAZE = 2000;
+    detectorListener() { //protect the scope
+        const LONG_GAZE = 1500;
+        const fudge = 10;
 
         let length = this.state.det.getLastEvent();
-        if(length > LONG_GAZE) {
+        if(length > LONG_GAZE - fudge) {
             this.longGaze();
-        } else if(length > this.settings.state.gazeSliderValue * 1000) {
+        } else if(length > this.state.settings.gazeSpeed * 1000 - fudge) {
             this.gaze();
         }
     }
+    //RC- listen for the set button and start the calibration procedure
+    set() {
+        this.calibrate();
+    }
+    //RC- listen for the start button and start listening to the user
+    start() {
+        if(this.state.det) {//start listening for the detector events.
+            this.state.det.addBeginListener(this.startTone);
+            this.state.det.addEndListener(this.stopTone);
+            this.state.det.addEndListener(this.detectorListener);
+        }
+    }
+    //RC- listen for the stop button and stop listening
+    stop() {
+        if(this.state.det) {
+            this.state.det.removeBeginListener(this.startTone);
+            this.state.det.removeEndListener(this.stopTone);
+            this.state.det.removeEndListener(this.detectorListener);
+        }
+
+        this.stopScan();
+    }
+    //END LISTENERS
+
+    //SCANNING FUNCTIONS
     //RC- start scanning or back out.
     longGaze() {
         if(this.row != null) {
@@ -77,7 +121,7 @@ class App extends React.Component {
                 this.commBoard.selectButton(this.button);
                 this.row = this.button = null;
             } else {
-                this.button = this.row * this.commBoard.columns - 1;
+                this.button = this.row * this.commBoard.columns;
             }
         }
     }
@@ -89,7 +133,7 @@ class App extends React.Component {
             if(this.button != null) {//scan through buttons.
                 this.button += 1;
                 if(Math.floor(this.button / this.commBoard.columns) != this.row) {
-                    this.button -= this.commBoard.columns;
+                    this.button -= this.commBoard.columns - 1;
                 }
                 this.commBoard.highlightButton(this.button);
 
@@ -102,10 +146,31 @@ class App extends React.Component {
             this.commBoard.highlightRow(this.row);
         }
     }
+    //RC- capture a set of reference images
+    calibrate() {
+        const WAIT_TIME = 1000;
+        if(this.state.det) {
+            this.sp.speakAsync(this.state.lang.openEye, () => {
+                this.sp.toneStart(WAIT_TIME);
+                setTimeout(() => {
+                    this.state.det.captureRest();
+
+                    this.sp.speakAsync(this.state.lang.closeEye, () => {
+                        this.sp.toneStart(WAIT_TIME);
+                        setTimeout(() => {
+                            this.state.det.captureGaze();
+                        }, WAIT_TIME);
+                    });
+                }, WAIT_TIME);
+            });
+        } else {
+            this.sp.speakAsync(this.state.lang.noCamera, () => 1);
+        }
+    }
     //RC
     startScan() {
         this.proceed();
-        this.scan = window.setInterval(() => this.proceed(), 1000 * this.settings.state.scanSliderValue);
+        this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
     }
     //RC
     stopScan() {
@@ -113,24 +178,9 @@ class App extends React.Component {
         this.commBoard.clearHighlight();
         this.row = this.button = null;
     }
-    //RC- listen for the start button.
-    start() {
-        if(this.state.det) {//start listening for the detector events.
-            this.state.det.addBeginListener(() => this.sp.toneStart(this.settings.state.gazeSliderValue * 1000));
-            this.state.det.addEndListener(() => this.sp.toneStop());
-            this.state.det.addEndListener(() => this.listener());
-        }
-    }
-    //RC- listen for the stop button.
-    stop() {
-        if(this.state.det) {
-            this.state.det.removeBeginListener(() => this.sp.toneStart(this.settings.gazeSliderValue * 1000));
-            this.state.det.removeEndListener(() => this.sp.toneStop());
-            this.state.det.removeEndListener(() => this.listener());
-        }
+    //END SCANNING FUNCTIONS
 
-        this.stopScan();
-    }
+    //REACT STUFF
     //RC
     componentDidMount() {
         let detector = new GazeDetector();
@@ -147,12 +197,13 @@ class App extends React.Component {
                 </div>
                 <CommBoard ref={(input) => this.commBoard = input} buffer={this.state.buf} />
                 <div style={{float: "right"}}>
-                    <Video lang={this.props.lang} />
-                    <Diagnostics lang={this.props.lang} det={this.state.det} ref={(i) => this.settings = i} />
+                    <Video lang={this.state.lang} />
+                    <Diagnostics set={this.state.settings} lang={this.state.lang} det={this.state.det}/>
                 </div>
                 <div style={{position: "absolute", bottom: "0px", right: "0px"}}>
-                    <input type="button" name="start" value={this.props.lang.start} onClick={() => this.start()} />
-                    <input type="button" name="stop" value={this.props.lang.stop} onClick={() => this.stop()} />
+                    <input type="button" name="set" value={this.state.lang.set} onClick={() => this.set()} />
+                    <input type="button" name="start" value={this.state.lang.start} onClick={() => this.start()} />
+                    <input type="button" name="stop" value={this.state.lang.stop} onClick={() => this.stop()} />
                 </div>
             </div>
         );
@@ -160,4 +211,4 @@ class App extends React.Component {
 }
 App = Radium(App);
 
-ReactDOM.render(<App lang={langEN}/>, document.getElementById('content'));
+ReactDOM.render(<App />, document.getElementById('content'));

@@ -65,6 +65,14 @@ class GazeDetector extends Detector {
 
         window.setInterval(() => this.detect(), 1000 / REFRESH_RATE_SCAN);
     }
+    //RC- capture a rest reference image
+    captureRest() {
+        this.rest.capture();
+    }
+    //RC- capture a gaze reference image
+    captureGaze() {
+        this.gaze.capture();
+    }
     //RC- return the length of the last event detected.
     getLastEvent() {
         return this.lastEvent;
@@ -163,7 +171,8 @@ function makeTemplate(name, videoStream) {
 
     // The returned object.
     let that = {
-        getPixels: () => cc.context.getImageData(0, 0, cc.getWidth(), cc.getHeight())
+        getPixels: () => cc.context.getImageData(0, 0, cc.getWidth(), cc.getHeight()),
+        capture: () => capture()
     };
 
     // Bind event handler and return.

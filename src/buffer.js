@@ -79,13 +79,13 @@ function buffer(speaker) {
 
     const isTerminalPunctuation = (char) => char.match(/[.!?]/) !== null;
 
-    const isBufferWordStart = () => getText() === "" || getText().slice(-1) == " ";
+    const isBufferWordStart = () => getText() === "_" || getText().slice(-2) == " _";
 
     function isBufferSentenceStart() {
         let text = getText();
         return (text === "" ||
-                (text.slice(-1) === " " &&
-                 isTerminalPunctuation(text.slice(-2))));
+                (text.slice(-2) === " _" &&
+                 isTerminalPunctuation(text.slice(-3))));
     }
 
     // ********************************************************************** //
