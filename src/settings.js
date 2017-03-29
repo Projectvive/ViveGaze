@@ -1,7 +1,7 @@
 "use strict";
 const EventEmitter = require("events");
-
-const langEN = { //do keep this alphabetized
+// Words used in program and translations
+const langEN = { //English do keep this alphabetized
     blinkSpeed: "Blink Speed",
     capture: "Capture",
     closeEye: "Please hold your eye shut",
@@ -20,7 +20,26 @@ const langEN = { //do keep this alphabetized
     stop: "Stop",
     videofeed: "Video Feed"
 }
-
+//Added by MEM 3/28/2017
+const langES = { //Spanish do keep this alphabetized
+    blinkSpeed: "Velocidad de parpadeo",
+    capture: "Captura",
+    closeEye: "Por favor cierra su ojo",
+    gaze: "Mirada",
+    guess: "Adivina",
+    language: "Idioma",
+    lastEvent: "Último evento",
+    layout: "Diseño",
+    noCamera: "No se ha detectado ninguna cámara",
+    openEye: "Por favor abra su ojo",
+    rest: "descansa",
+    scanSpeed: "Velocidad de exploración",
+    set: "Establece",
+    settings: "Ajustes",
+    start: "Comienzo",
+    stop: "Deténgase",
+    videofeed: "Video en vivo"
+}
 //Ryan Campbell
 function settings() {
     //default settings
