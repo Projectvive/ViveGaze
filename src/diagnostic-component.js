@@ -28,6 +28,9 @@ class Diagnostics extends React.Component {
         this.settings.gazeSpeed = this.gazeSlider.value;
         this.setState({gazeSliderValue: this.settings.gazeSpeed});
         break;
+      case "language":
+        this.settings.lang = this.langSelector.value;
+        break;
       default:
         console.log("unidendified setting: " + elem);
     }
@@ -65,9 +68,9 @@ class Diagnostics extends React.Component {
           </div>
           <br/>
           <span>{this.props.lang.language}</span>
-          <select name="language">
-            <option value="en">English</option>
-            <option value="fr">Français</option>
+          <select name="language" ref={(i) => this.langSelector = i} onChange={() => this.set("language")}>
+            <option value="English">English</option>
+            <option value="Spanish">Español</option>
           </select>
         </div>
       </div>

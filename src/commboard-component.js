@@ -17,9 +17,7 @@ const styles = {
             borderRadius: "10px",
             margin: "5px",
             padding: "5px",
-            position: "absolute",
-            bottom: "0px"
-
+            width: "80em"
       },
       table: {
             width: "80em",

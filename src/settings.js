@@ -32,7 +32,7 @@ const langES = { //Spanish do keep this alphabetized
     layout: "Diseño",
     noCamera: "No se ha detectado ninguna cámara",
     openEye: "Por favor abra su ojo",
-    rest: "descansa",
+    rest: "Descansa",
     scanSpeed: "Velocidad de exploración",
     set: "Establece",
     settings: "Ajustes",
@@ -61,6 +61,9 @@ function settings() {
         set lang(v) {switch(v) {
             case "English":
                 lang = langEN;
+                break;
+            case "Spanish":
+                lang = langES;
                 break;
             default:
                 throw new Error("invalid language: " + v);

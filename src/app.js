@@ -41,6 +41,8 @@ class App extends React.Component {
         this.stopTone = this.stopTone.bind(this);
         this.settingsListener = this.settingsListener.bind(this);
         this.detectorListener = this.detectorListener.bind(this);
+
+        set.addListener(this.settingsListener);
     }
 
     //LISTENERS
@@ -192,18 +194,20 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <div style={{width: "70em", float: "left"}}>
+                <div style={{width: "87em", float: "left"}}>
                     <Message buffer={this.state.buf} />
                 </div>
-                <CommBoard ref={(input) => this.commBoard = input} buffer={this.state.buf} />
+                <div style={{position: "absolute", bottom: "0px", width: "87em"}}>
+                        <CommBoard ref={(input) => this.commBoard = input} buffer={this.state.buf} />
+                    <div style={{position: "absolute", bottom: "0px", right: "0px", width: "6em"}}>
+                        <input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="set" value={this.state.lang.set} onClick={() => this.set()} />
+                        <input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="start" value={this.state.lang.start} onClick={() => this.start()} />
+                        <input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="stop" value={this.state.lang.stop} onClick={() => this.stop()} />
+                    </div>
+                </div>
                 <div style={{float: "right"}}>
                     <Video lang={this.state.lang} />
                     <Diagnostics set={this.state.settings} lang={this.state.lang} det={this.state.det}/>
-                </div>
-                <div style={{position: "absolute", bottom: "0px", right: "0px"}}>
-                    <input type="button" name="set" value={this.state.lang.set} onClick={() => this.set()} />
-                    <input type="button" name="start" value={this.state.lang.start} onClick={() => this.start()} />
-                    <input type="button" name="stop" value={this.state.lang.stop} onClick={() => this.stop()} />
                 </div>
             </div>
         );
