@@ -9,7 +9,7 @@
   "homepage": "https:\/\/github.com\/dwadden\/wedjat#readme",
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "electron-prebuilt": "^1.4.x",
+    "electron": "^1.6.x",
     "jquery": "^2.2.4",
     "jquery-ui": "1.10.5",
     "nodemailer": "^2.3.0",

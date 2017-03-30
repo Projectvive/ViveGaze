@@ -153,7 +153,6 @@ function buffer(speaker) {
     function clearBuffer(cb) {
         // Clear the buffer. Invoke callback when finished.
         bufferText = CURSOR;
-        update();
         emitChange();
         cb();
     }

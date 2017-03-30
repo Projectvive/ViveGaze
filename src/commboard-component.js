@@ -15,9 +15,8 @@ const styles = {
             borderWidth: "1px",
             borderStyle: "solid",
             borderRadius: "10px",
-            margin: "5px",
             padding: "5px",
-            width: "80em"
+            width: "81em"
       },
       table: {
             width: "80em",
@@ -30,7 +29,7 @@ const styles = {
       baseButton: {
             height: "100%",
             width: "95%",
-            padding: "5px",
+            margin: "5px",
             fontSize: "300%",
             fontWeight: "bold"
       },
@@ -186,11 +185,12 @@ class CommBoard extends React.Component {
                         <tr style={[this.state.rowHL == i && styles.highlightedRow]}>
                               <td>{this.renderTextButton(rowOffset, i.toString(), "")}</td>
                               <td>{this.renderFunctionButton(rowOffset + 1, "Delete", () => this.props.buffer.executeAction("delete", () => 1))}</td>
-                              <td>{this.renderTextButton(rowOffset + 2, "Space", " ")}</td>
-                              <td>{this.renderTextButton(rowOffset + 3, ",", ",")}</td>
-                              <td>{this.renderTextButton(rowOffset + 4, ".", ".")}</td>
-                              <td>{this.renderTextButton(rowOffset + 5, "?", "?")}</td>
-                              <td>{this.renderFunctionButton(rowOffset + 6, "Speak", () => this.props.buffer.executeAction("read", () => 1))}</td>
+                              <td>{this.renderFunctionButton(rowOffset + 2, "Clear", () => this.props.buffer.executeAction("clear", () => 1))}</td>
+                              <td>{this.renderTextButton(rowOffset + 3, "Space", " ")}</td>
+                              <td>{this.renderTextButton(rowOffset + 4, ",", ",")}</td>
+                              <td>{this.renderTextButton(rowOffset + 5, ".", ".")}</td>
+                              <td>{this.renderTextButton(rowOffset + 6, "?", "?")}</td>
+                              <td>{this.renderFunctionButton(rowOffset + 7, "Speak", () => this.props.buffer.executeAction("read", () => 1))}</td>
                         </tr>
                         );
             }

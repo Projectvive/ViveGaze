@@ -23,16 +23,8 @@ Before you can run the program, you must bundle the source files by typing the c
 npm run prebuild
 ```
 
-then, enter:
+then, you can enter the following to start:
 
 ```
-\node_modules\electron-prebuilt\dist\electron.exe .
-
+./node_modules/.bin/electron .
 ```
-or, for osx: 
-```
-node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron .
-```
-## The Wedjat Wiki
-
-Health care providers interested in using Wedjat for their patients are welcome to check out the [Wedjat Wiki](https://github.com/dwadden/wedjat/wiki). It provides a quick-start guide for non-programmers.
