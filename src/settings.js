@@ -45,7 +45,7 @@ function settings() {
     //default settings
     let scanSpeed = 2;
     let gazeSpeed = .2;
-    let lang = langEN;
+    let lang = langES;
 
     let emitter = new EventEmitter;
 

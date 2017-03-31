@@ -69,8 +69,8 @@ class Diagnostics extends React.Component {
           <br/>
           <span>{this.props.lang.language}</span>
           <select name="language" ref={(i) => this.langSelector = i} onChange={() => this.set("language")}>
-            <option value="English">English</option>
             <option value="Spanish">Español</option>
+            <option value="English">English</option>
           </select>
         </div>
       </div>

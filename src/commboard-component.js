@@ -48,8 +48,12 @@ class Button extends React.Component {
       constructor(props) {
             super(props);
 
-            this.value = this.props.value;
-            this.func = this.props.func;
+            this.value = props.value;
+            this.func = props.func;
+      }
+      componentWillReceiveProps(props) {
+            this.value = props.value;
+            this.func = props.func;
       }
       render() {
             return (<input type="button"
@@ -213,7 +217,7 @@ class CommBoard extends React.Component {
                               <td>{this.renderTextButton(rowOffset + 4, ",", ",")}</td>
                               <td>{this.renderTextButton(rowOffset + 5, ".", ".")}</td>
                               <td>{this.renderTextButton(rowOffset + 6, "?", "?")}</td>
-                              <td>{this.renderFunctionButton(rowOffset + 7, "Speak", () => this.props.buffer.executeAction("read", () => 1))}</td>
+                              <td>{this.renderFunctionButton(rowOffset + 7, "Speak", () => {this.props.buffer.executeAction("read", () => 1); this.props.stop();})}</td>
                         </tr>
                         );
             }

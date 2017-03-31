@@ -27,6 +27,7 @@ class App extends React.Component {
         this.row = null;
         this.button = null;
         this.scan = null;
+        this.stopped = true;
         this.scanSpeed = set.scanSpeed;
 
         this.state = {
@@ -91,7 +92,8 @@ class App extends React.Component {
     }
     //RC- listen for the start button and start listening to the user
     start() {
-        if(this.state.det) {//start listening for the detector events.
+        if(this.state.det && this.stopped) {//start listening for the detector events.
+            this.stopped = false;
             this.state.det.addBeginListener(this.startTone);
             this.state.det.addBeginListener(this.detectorBeginListener);
             this.state.det.addEndListener(this.stopTone);
@@ -106,7 +108,7 @@ class App extends React.Component {
             this.state.det.removeEndListener(this.stopTone);
             this.state.det.removeEndListener(this.detectorEndListener);
         }
-
+        this.stopped = true;
         this.stopScan();
     }
     //END LISTENERS
@@ -224,7 +226,7 @@ class App extends React.Component {
                     <Message buffer={this.state.buf} />
                 </div>
                 <div style={{position: "absolute", bottom: "0px", width: "87em"}}>
-                        <CommBoard ref={(input) => this.commBoard = input} buffer={this.state.buf} />
+                        <CommBoard ref={(input) => this.commBoard = input} buffer={this.state.buf} stop={() => this.stopScan()}/>
                     <div style={{position: "absolute", bottom: "0px", right: "0px", width: "6em"}}>
                         <input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="set" value={this.state.lang.set} onClick={() => this.set()} />
                         <input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="start" value={this.state.lang.start} onClick={() => this.start()} />
