@@ -8,6 +8,7 @@
   },
   "homepage": "https://github.com/dwadden/wedjat#readme",
   "dependencies": {
+    "auto-launch": "^5.0.1",
     "babel-preset-es2015": "^6.24.x",
     "babel-preset-react": "^6.23.x",
     "babelify": "^7.3.x",
