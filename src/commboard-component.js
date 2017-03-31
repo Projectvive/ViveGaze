@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import Radium from "radium";
 const jQuery = require("jquery");
 
-const layout_default = ['', 'a', 'b', 'c', 'd', 'e', 'f', '',
-                        '', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-                        '', 'n', 'o', 'p', 'q', 'r', 's', '',
-                        '', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+const layout_default = [' ', 'a', 'b', 'c', 'd', 'e', 'f', ' ',
+                        ' ', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                        ' ', 'n', 'o', 'p', 'q', 'r', 's', ' ',
+                        ' ', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
 const styles = {
       container: {
@@ -182,7 +182,8 @@ class CommBoard extends React.Component {
             let r = [];
             r[0] = <td key={row}>{this.renderTextButton(row * this.columns, "Guess", "")}</td>;
             for(let i = 1; i < this.columns; i++) {
-                  r[i] = <td key={row + i}>{this.renderGuessButton(row * this.columns + i, this.state.guesses[i - 1])}</td>;
+                  let word = this.state.guesses[i - 1] || " ";
+                  r[i] = <td key={row + i}>{this.renderGuessButton(row * this.columns + i, word)}</td>;
             }
             return r;
       }
