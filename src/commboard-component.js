@@ -44,21 +44,6 @@ const styles = {
             color: "#ffffff"
       }
 };
-class Button extends React.Component {
-      constructor(props) {
-            super(props);
-
-            this.value = this.props.value;
-            this.func = this.props.func;
-      }
-      render() {
-            return (<input type="button"
-                  value={this.props.value} 
-                  style={this.props.style}
-                  onClick={() => this.props.func()} />);
-      }
-}
-Button = Radium(Button);
 //Ryan Campbell
 //The main input interface
 class CommBoard extends React.Component {
@@ -79,14 +64,11 @@ class CommBoard extends React.Component {
       //SCANNING FUNCTIONS
       //RC
       highlightRow(i) {
-            this.setState({rowHL: i,
-            buttonHL: i * this.columns});
-            return this.buttons[i * this.columns];
+            this.setState({rowHL: i});
       }
       //RC
       highlightButton(i) {
             this.setState({buttonHL: i});
-            return this.buttons[i];
       }
       //RC
       clearHighlight() {
@@ -95,7 +77,7 @@ class CommBoard extends React.Component {
       //RC
       selectButton(i) {
             if(this.buttons[i]) {
-                  this.buttons[i].func();
+                  this.buttons[i]();
                   this.generateGuesses();
             }
             this.clearHighlight();
@@ -143,30 +125,27 @@ class CommBoard extends React.Component {
       //For all the following buttons, pos is the position in the commboard button array and display is what is displayed on the UI
       //RC- render a React function button.
       renderFunctionButton(pos, display, func) {
-            return (<Button
-                  key={pos}
+            this.buttons[pos] = func
+            return (<input type="button" 
                   value={display} 
-                  style={[styles.baseButton, styles.functionButton, this.state.buttonHL == pos && styles.highlightedButton]}
-                  func={() => {func(); this.generateGuesses();}}
-                  ref={(i) => this.buttons[pos] = i} />);
+                  style={[styles.baseButton, styles.functionButton, this.state.buttonHL == pos && styles.highlightedButton]} 
+                  onClick={this.buttons[pos]} />);
       }
       //RC- render a React text button
       renderTextButton(pos, display, value) {//value is what is passed to the buffer
-            let func = () => {this.props.buffer.write(value, "letter"); this.generateGuesses();};
-		return (<Button 
-                  key={pos}
+            this.buttons[pos] = () => this.props.buffer.write(value, "letter");
+		return (<input type="button" 
                   value={display} 
-                  style={[styles.baseButton, styles.textButton, this.state.buttonHL == pos && styles.highlightedButton]}
-                  func={func}
-                  ref={(i) => this.buttons[pos] = i} />);
+                  style={[styles.baseButton, styles.textButton, this.state.buttonHL == pos && styles.highlightedButton]} 
+                  onClick={this.buttons[pos]} />);
 	}
       //RC
       renderLetterButtons(row) {
             const FIRST_LETTER_ROW = 1;
             let r = [];
-            r[0] = <td key={row}>{this.renderTextButton(row * this.columns, (row + 1 - FIRST_LETTER_ROW).toString(), "")}</td>;
+            r[0] = <td>{this.renderTextButton(row * this.columns, (row + 1 - FIRST_LETTER_ROW).toString(), "")}</td>;
             for(let i = 1; i < this.columns; i++) {
-                  r[i] = <td key={row + i}>{this.renderLetterButton(row * this.columns + i, this.state.letters[(row - FIRST_LETTER_ROW) * this.columns + i])}</td>;
+                  r[i] = <td>{this.renderLetterButton(row * this.columns + i, this.state.letters[(row - FIRST_LETTER_ROW) * this.columns + i])}</td>;
             }
             return r;
       }
@@ -176,21 +155,19 @@ class CommBoard extends React.Component {
       }
       renderGuessButtons(row) {
             let r = [];
-            r[0] = <td key={row}>{this.renderTextButton(row * this.columns, "Guess", "")}</td>;
+            r[0] = <td>{this.renderTextButton(row * this.columns, "Guess", "")}</td>;
             for(let i = 1; i < this.columns; i++) {
-                  r[i] = <td key={row + i}>{this.renderGuessButton(row * this.columns + i, this.state.guesses[i - 1])}</td>;
+                  r[i] = <td>{this.renderGuessButton(row * this.columns + i, this.state.guesses[i - 1])}</td>;
             }
             return r;
       }
       //RC
 	renderGuessButton(pos, word) {
-            let func = () => {this.props.buffer.write(word, "word"); this.generateGuesses();};
-            return (<Button 
-                  key={pos}
+            this.buttons[pos] = () => this.props.buffer.write(word, "word");
+            return (<input type="button" 
                   value={word} 
                   style={[styles.baseButton, styles.textButton, this.state.buttonHL == pos && styles.highlightedButton]} 
-                  func={func}
-                  ref={(i) => this.buttons[pos] = i} />);
+                  onClick={this.buttons[pos]} />);
 	}
       //RC
       renderRow(i) {

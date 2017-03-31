@@ -1,5 +1,6 @@
 "use strict";
 const EventEmitter = require("events");
+const bs = require('browser-storage');
 // Words used in program and translations
 const langEN = { //English do keep this alphabetized
     blinkSpeed: "Blink Speed",
@@ -43,18 +44,43 @@ const langES = { //Spanish do keep this alphabetized
 //Ryan Campbell
 function settings() {
     //default settings
-    let scanSpeed = 2;
-    let gazeSpeed = .2;
-    let lang = langEN;
-
-    let emitter = new EventEmitter;
-
+	var lang = "langEN";
+	var scanSpeed=null;
+	var gazeSpeed=null;
+	
+	
+	let emitter = new EventEmitter;
+	var defaltSettings={
+    		lang: "langEN",
+    		scanSpeed: 2,
+    		gazeSpeed:.2
+    		}
+    	
+    let data=bs.getItem('settings');
+    let dataSplit= data.split(" ");
+    lang= dataSplit[0];
+    scanSpeed = parseFloat(dataSplit[1],10);
+    gazeSpeed = parseFloat(dataSplit[2],10);
+    	
+    if( scanSpeed ==null)
+    	{
+    	   lang=defaltSettings.lang;
+    	   scanSpeed=defaltSettings.scanSpeed;
+    	   gazeSpeed=defaltSettings.gazeSpeed;
+    	}
+  
     let settings = {
         get scanSpeed() {return scanSpeed},
-        set scanSpeed(v) {scanSpeed = v; emitter.emit("change")},
+        set scanSpeed(v) {scanSpeed = v;
+        let json = lang +" "+ scanSpeed+ " "+ gazeSpeed;
+		bs.setItem('settings', json);
+		emitter.emit("change");},
 
         get gazeSpeed() {return gazeSpeed},
-        set gazeSpeed(v) {gazeSpeed = v; emitter.emit("change")},
+        set gazeSpeed(v) {gazeSpeed = v;
+        let json = lang +" "+ scanSpeed+ " "+ gazeSpeed;
+		bs.setItem('settings', json);
+		emitter.emit("change");},
 
         get languages() {return ["English"];},
         get lang() {return lang;},
@@ -67,11 +93,16 @@ function settings() {
                 break;
             default:
                 throw new Error("invalid language: " + v);
-        } emitter.emit("change");},
+        }
+        let json = lang +" "+ scanSpeed+ " "+ gazeSpeed;
+		bs.setItem('settings', json);
+		emitter.emit("change");},
 
         addListener: (l) => emitter.addListener("change", l),
         removeListener: (l) => emitter.removeListener("change", l)
     };
+  
+    
     return settings;
 }
 module.exports = settings;

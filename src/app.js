@@ -20,13 +20,16 @@ const Diagnostics = require("./diagnostic-component.js");
 class App extends React.Component {
     constructor() {
         super();
-        
+      
         this.sp = speaker();
-        let set = settings();
+          
+        
 
         this.row = null;
         this.button = null;
         this.scan = null;
+        //do { i like do while but it breaks EVERYTHING 
+        let set = settings();
         this.scanSpeed = set.scanSpeed;
 
         this.state = {
@@ -35,13 +38,12 @@ class App extends React.Component {
             buf: buffer(this.sp),
             det: null
         }
-
+     // }while(this.state.scanSpeed==null); 
         //protect the scope of the listeners
         this.startTone = this.startTone.bind(this);
         this.stopTone = this.stopTone.bind(this);
         this.settingsListener = this.settingsListener.bind(this);
-        this.detectorBeginListener = this.detectorBeginListener.bind(this);
-        this.detectorEndListener = this.detectorEndListener.bind(this);
+        this.detectorListener = this.detectorListener.bind(this);
 
         set.addListener(this.settingsListener);
     }
@@ -67,16 +69,10 @@ class App extends React.Component {
             this.startScan();
         }
     }
-    //RC- listen for gazeBegin events from the detector
-    detectorBeginListener() {
-        this.pauseScan();
-    }
-    //RC- listen for gazeEnd events from the detector.
-    detectorEndListener() {
+    //RC- listen for gaze events from the detector.
+    detectorListener() { //protect the scope
         const LONG_GAZE = 1500;
         const fudge = 10;
-
-        this.resumeScan();
 
         let length = this.state.det.getLastEvent();
         if(length > LONG_GAZE - fudge) {
@@ -93,18 +89,16 @@ class App extends React.Component {
     start() {
         if(this.state.det) {//start listening for the detector events.
             this.state.det.addBeginListener(this.startTone);
-            this.state.det.addBeginListener(this.detectorBeginListener);
             this.state.det.addEndListener(this.stopTone);
-            this.state.det.addEndListener(this.detectorEndListener);
+            this.state.det.addEndListener(this.detectorListener);
         }
     }
     //RC- listen for the stop button and stop listening
     stop() {
         if(this.state.det) {
             this.state.det.removeBeginListener(this.startTone);
-            this.state.det.removeBeginListener(this.detectorBeginListener);
             this.state.det.removeEndListener(this.stopTone);
-            this.state.det.removeEndListener(this.detectorEndListener);
+            this.state.det.removeEndListener(this.detectorListener);
         }
 
         this.stopScan();
@@ -146,18 +140,15 @@ class App extends React.Component {
                 if(Math.floor(this.button / this.commBoard.columns) != this.row) {
                     this.button -= this.commBoard.columns - 1;
                 }
-                let b = this.commBoard.highlightButton(this.button);
-                this.sp.speakAsync(b.value.toString());
+                this.commBoard.highlightButton(this.button);
 
             } else {//scan through rows.
                 this.row = (this.row + 1) % this.commBoard.rows;
-                let b = this.commBoard.highlightRow(this.row);
-                this.sp.speakAsync(b.value.toString());
+                this.commBoard.highlightRow(this.row);
             }
         } else {//start a fresh scan.
             this.row = 0;
-            let b = this.commBoard.highlightRow(this.row);
-            this.sp.speakAsync(b.value.toString());
+            this.commBoard.highlightRow(this.row);
         }
     }
     //RC- capture a set of reference images
@@ -184,27 +175,13 @@ class App extends React.Component {
     //RC
     startScan() {
         this.proceed();
-        if(!this.scan) {
-            this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
-        }
+        this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
     }
     //RC
     stopScan() {
         window.clearInterval(this.scan);
-        this.scan = null;
         this.commBoard.clearHighlight();
         this.row = this.button = null;
-    }
-    //RC
-    pauseScan() {
-        window.clearInterval(this.scan);
-        this.scan = "paused";
-    }
-    //RC
-    resumeScan() {
-        if(this.scan == "paused") {
-            this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
-        }
     }
     //END SCANNING FUNCTIONS
 
