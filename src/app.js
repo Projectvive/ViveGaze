@@ -40,7 +40,8 @@ class App extends React.Component {
         this.startTone = this.startTone.bind(this);
         this.stopTone = this.stopTone.bind(this);
         this.settingsListener = this.settingsListener.bind(this);
-        this.detectorListener = this.detectorListener.bind(this);
+        this.detectorBeginListener = this.detectorBeginListener.bind(this);
+        this.detectorEndListener = this.detectorEndListener.bind(this);
 
         set.addListener(this.settingsListener);
     }
@@ -66,10 +67,16 @@ class App extends React.Component {
             this.startScan();
         }
     }
-    //RC- listen for gaze events from the detector.
-    detectorListener() { //protect the scope
+    //RC- listen for gazeBegin events from the detector
+    detectorBeginListener() {
+        this.pauseScan();
+    }
+    //RC- listen for gazeEnd events from the detector.
+    detectorEndListener() {
         const LONG_GAZE = 1500;
         const fudge = 10;
+
+        this.resumeScan();
 
         let length = this.state.det.getLastEvent();
         if(length > LONG_GAZE - fudge) {
@@ -86,16 +93,18 @@ class App extends React.Component {
     start() {
         if(this.state.det) {//start listening for the detector events.
             this.state.det.addBeginListener(this.startTone);
+            this.state.det.addBeginListener(this.detectorBeginListener);
             this.state.det.addEndListener(this.stopTone);
-            this.state.det.addEndListener(this.detectorListener);
+            this.state.det.addEndListener(this.detectorEndListener);
         }
     }
     //RC- listen for the stop button and stop listening
     stop() {
         if(this.state.det) {
             this.state.det.removeBeginListener(this.startTone);
+            this.state.det.removeBeginListener(this.detectorBeginListener);
             this.state.det.removeEndListener(this.stopTone);
-            this.state.det.removeEndListener(this.detectorListener);
+            this.state.det.removeEndListener(this.detectorEndListener);
         }
 
         this.stopScan();
@@ -137,15 +146,18 @@ class App extends React.Component {
                 if(Math.floor(this.button / this.commBoard.columns) != this.row) {
                     this.button -= this.commBoard.columns - 1;
                 }
-                this.commBoard.highlightButton(this.button);
+                let b = this.commBoard.highlightButton(this.button);
+                this.sp.speakAsync(b.value.toString());
 
             } else {//scan through rows.
                 this.row = (this.row + 1) % this.commBoard.rows;
-                this.commBoard.highlightRow(this.row);
+                let b = this.commBoard.highlightRow(this.row);
+                this.sp.speakAsync(b.value.toString());
             }
         } else {//start a fresh scan.
             this.row = 0;
-            this.commBoard.highlightRow(this.row);
+            let b = this.commBoard.highlightRow(this.row);
+            this.sp.speakAsync(b.value.toString());
         }
     }
     //RC- capture a set of reference images
@@ -172,13 +184,27 @@ class App extends React.Component {
     //RC
     startScan() {
         this.proceed();
-        this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
+        if(!this.scan) {
+            this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
+        }
     }
     //RC
     stopScan() {
         window.clearInterval(this.scan);
+        this.scan = null;
         this.commBoard.clearHighlight();
         this.row = this.button = null;
+    }
+    //RC
+    pauseScan() {
+        window.clearInterval(this.scan);
+        this.scan = "paused";
+    }
+    //RC
+    resumeScan() {
+        if(this.scan == "paused") {
+            this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
+        }
     }
     //END SCANNING FUNCTIONS
 
