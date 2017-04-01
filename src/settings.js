@@ -43,42 +43,57 @@ const langES = { //Spanish do keep this alphabetized
 }
 //Ryan Campbell
 function settings() {
-    //default settings
-	var lang = "langEN";
+    
+	var lang = null;
 	var scanSpeed=null;
 	var gazeSpeed=null;
 	
 	
-	let emitter = new EventEmitter;
+	
 	var defaltSettings={
-    		lang: "langEN",
-    		scanSpeed: 2,
-    		gazeSpeed:.2
+		lang :langEN,
+    	scanSpeed : 2,
+    	gazeSpeed :.2,
     		}
+    	let emitter = new EventEmitter;
+   let data=bs.getItem('settings');
+   let dataSplit= data.split(" ");
+   console.log(data);
+   console.log(dataSplit[0]);
+   console.log(dataSplit[1]);
+   console.log(dataSplit[2]);
+   switch(dataSplit[0]) {
+   		case "English":
+   			lang = langEN;
+   			break;
+   		case "Spanish":
+   			lang = langES;
+   			break;}
+   
+   scanSpeed = parseFloat(dataSplit[1],10);
+   gazeSpeed = parseFloat(dataSplit[2],10);
     	
-    let data=bs.getItem('settings');
-    let dataSplit= data.split(" ");
-    lang= dataSplit[0];
-    scanSpeed = parseFloat(dataSplit[1],10);
-    gazeSpeed = parseFloat(dataSplit[2],10);
-    	
-    if( scanSpeed ==null)
-    	{
-    	   lang=defaltSettings.lang;
+   if( scanSpeed ==null)
+   	{
+   	   lang=defaltSettings.lang;
     	   scanSpeed=defaltSettings.scanSpeed;
-    	   gazeSpeed=defaltSettings.gazeSpeed;
-    	}
+   	   gazeSpeed=defaltSettings.gazeSpeed;
+   	}
   
     let settings = {
         get scanSpeed() {return scanSpeed},
         set scanSpeed(v) {scanSpeed = v;
-        let json = lang +" "+ scanSpeed+ " "+ gazeSpeed;
+        let json = lang.toString() +" "+ scanSpeed+ " "+ gazeSpeed;
+        
+        console.log(json);
 		bs.setItem('settings', json);
 		emitter.emit("change");},
 
         get gazeSpeed() {return gazeSpeed},
         set gazeSpeed(v) {gazeSpeed = v;
-        let json = lang +" "+ scanSpeed+ " "+ gazeSpeed;
+        let json = lang.toString() +" "+ scanSpeed+ " "+ gazeSpeed;
+        
+        console.log(json);
 		bs.setItem('settings', json);
 		emitter.emit("change");},
 
@@ -86,16 +101,23 @@ function settings() {
         get lang() {return lang;},
         set lang(v) {switch(v) {
             case "English":
+            	lang = "English";
+            	let json = lang +" "+ scanSpeed+ " "+ gazeSpeed;
+                console.log(json);
+          		bs.setItem('settings', json);
                 lang = langEN;
                 break;
             case "Spanish":
+            	lang = "Spanish";
+            	json = lang +" "+ scanSpeed+ " "+ gazeSpeed;
+                console.log(json);
+          		bs.setItem('settings', json);
                 lang = langES;
                 break;
             default:
                 throw new Error("invalid language: " + v);
         }
-        let json = lang +" "+ scanSpeed+ " "+ gazeSpeed;
-		bs.setItem('settings', json);
+     
 		emitter.emit("change");},
 
         addListener: (l) => emitter.addListener("change", l),
