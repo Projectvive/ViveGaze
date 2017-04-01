@@ -1,5 +1,5 @@
 "use strict";
-
+var AutoLaunch = require('auto-launch');
 const electron = require("electron");
 const app = electron.app;  // Module to control application life.
 const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
@@ -11,6 +11,13 @@ let mainWindow = null;
 // Quit when all windows are closed.
 app.on("window-all-closed", function() {
     app.quit();
+   var gazeLauncher = new AutoLaunch({
+        name: 'GazeDetector'
+    });
+     /*if(true)
+    gazeLauncher.enable();
+    else
+    	*/gazeLauncher.disable();
 });
 
 // This method will be called when Electron has finished
