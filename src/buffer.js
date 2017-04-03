@@ -79,11 +79,7 @@ function buffer(speaker) {
 
     const isTerminalPunctuation = (char) => char.match(/[.!?]/) !== null;
 
-    const isBufferWordStart = () => {
-        let text = getText();
-        let text2 = text.slice(-2);
-        return  text === "_" || text2.slice(-2) == " _";
-    };
+    const isBufferWordStart = () => getText() === "_" || getText().slice(-2) == " _";
 
     function isBufferSentenceStart() {
         let text = getText();
@@ -114,7 +110,7 @@ function buffer(speaker) {
 
     function writeWord(text) {     // Write a whole word to the buffer. Used in word guessing.
         while (!isBufferWordStart()) // Clear out partial word.
-            deleteText();
+            pop();
         let toWrite = isBufferSentenceStart() ? util.capitalize(text) : text;
         writeText(toWrite);
         writeSpace();
@@ -138,11 +134,12 @@ function buffer(speaker) {
 
     // Buffer actions.
 
-    function deleteText() {
+    function deleteText(cb) {
         pop();                  // Need to pop the cursor and the last letter
         pop();
         push(CURSOR);           // Then add the cursor back
         emitChange();
+        cb();
     }
     registerAction("delete", deleteText);
 
