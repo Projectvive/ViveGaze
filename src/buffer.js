@@ -110,7 +110,7 @@ function buffer(speaker) {
 
     function writeWord(text) {     // Write a whole word to the buffer. Used in word guessing.
         while (!isBufferWordStart()) // Clear out partial word.
-            pop();
+            deleteText();
         let toWrite = isBufferSentenceStart() ? util.capitalize(text) : text;
         writeText(toWrite);
         writeSpace();
@@ -134,12 +134,11 @@ function buffer(speaker) {
 
     // Buffer actions.
 
-    function deleteText(cb) {
+    function deleteText() {
         pop();                  // Need to pop the cursor and the last letter
         pop();
         push(CURSOR);           // Then add the cursor back
         emitChange();
-        cb();
     }
     registerAction("delete", deleteText);
 
