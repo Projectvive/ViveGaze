@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import ReactDOM from "react-dom";
 import Radium from "radium";
@@ -20,11 +18,9 @@ const Diagnostics = require("./diagnostic-component.js");
 class App extends React.Component {
 	constructor() {
 		super();
-
+		
 		this.sp = speaker();
 		let set = settings();
-
-		
 
 		this.row = null;
 		this.button = null;
@@ -38,12 +34,13 @@ class App extends React.Component {
 			buf: buffer(this.sp),
 			det: null
 		}
-		
+
 		//protect the scope of the listeners
 		this.startTone = this.startTone.bind(this);
 		this.stopTone = this.stopTone.bind(this);
 		this.settingsListener = this.settingsListener.bind(this);
-		this.detectorListener = this.detectorListener.bind(this);
+		this.detectorBeginListener = this.detectorBeginListener.bind(this);
+		this.detectorEndListener = this.detectorEndListener.bind(this);
 
 		set.addListener(this.settingsListener);
 	}
@@ -68,11 +65,15 @@ class App extends React.Component {
 			if(!this.stopped) {
 				this.stopScan();
 				this.startScan();
-			}
+		}
 		}
 	}
-	//RC- listen for gaze events from the detector.
-	detectorListener() { //protect the scope
+	//RC- listen for gazeBegin events from the detector
+	detectorBeginListener() {
+		this.pauseScan();
+	}
+	//RC- listen for gazeEnd events from the detector.
+	detectorEndListener() {
 		const LONG_GAZE = 1500;
 		const fudge = 10;
 
@@ -82,6 +83,8 @@ class App extends React.Component {
 		} else if(length > this.state.settings.gazeSpeed * 1000 - fudge) {
 			this.gaze();
 		}
+
+		this.resumeScan();
 	}
 	//RC- listen for the set button and start the calibration procedure
 	set() {
@@ -92,16 +95,18 @@ class App extends React.Component {
 		if(this.state.det && this.stopped) {//start listening for the detector events.
 			this.stopped = false;
 			this.state.det.addBeginListener(this.startTone);
+			this.state.det.addBeginListener(this.detectorBeginListener);
 			this.state.det.addEndListener(this.stopTone);
-			this.state.det.addEndListener(this.detectorListener);
+			this.state.det.addEndListener(this.detectorEndListener);
 		}
 	}
 	//RC- listen for the stop button and stop listening
 	stop() {
 		if(this.state.det) {
 			this.state.det.removeBeginListener(this.startTone);
+			this.state.det.removeBeginListener(this.detectorBeginListener);
 			this.state.det.removeEndListener(this.stopTone);
-			this.state.det.removeEndListener(this.detectorListener);
+			this.state.det.removeEndListener(this.detectorEndListener);
 		}
 		this.stopped = true;
 		this.stopScan();
@@ -135,7 +140,7 @@ class App extends React.Component {
 	}
 	//RC- move to the next row or the next button in the scan.
 	proceed() {
-		this.sp.beep(200, 50);
+		this.intervalStart = new Date();
 
 		if(this.row != null) {
 			if(this.button != null) {//scan through buttons.
@@ -143,15 +148,18 @@ class App extends React.Component {
 				if(Math.floor(this.button / this.commBoard.columns) != this.row) {
 					this.button -= this.commBoard.columns - 1;
 				}
-				this.commBoard.highlightButton(this.button);
+				let b = this.commBoard.highlightButton(this.button);
+				this.sp.speakAsync(b.value.toString());
 
 			} else {//scan through rows.
 				this.row = (this.row + 1) % this.commBoard.rows;
-				this.commBoard.highlightRow(this.row);
+				let b = this.commBoard.highlightRow(this.row);
+				this.sp.speakAsync(b.value.toString());
 			}
 		} else {//start a fresh scan.
 			this.row = 0;
-			this.commBoard.highlightRow(this.row);
+			let b = this.commBoard.highlightRow(this.row);
+			this.sp.speakAsync(b.value.toString());
 		}
 	}
 	//RC- capture a set of reference images
@@ -178,13 +186,27 @@ class App extends React.Component {
 	//RC
 	startScan() {
 		this.proceed();
-		this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
+		if(!this.scan) {
+			this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
+		}
 	}
 	//RC
 	stopScan() {
 		window.clearInterval(this.scan);
+		this.scan = null;
 		this.commBoard.clearHighlight();
 		this.row = this.button = null;
+	}
+	//RC
+	pauseScan() {
+		window.clearInterval(this.scan);
+		this.scan = "paused";
+	}
+	//RC
+	resumeScan() {
+		if(this.scan == "paused") {
+			window.setTimeout(() => {this.proceed(); this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);}, Math.max(1000 * this.scanSpeed - (new Date() - this.intervalStart), 0));
+		}
 	}
 	//END SCANNING FUNCTIONS
 
@@ -204,7 +226,7 @@ class App extends React.Component {
 					<Message buffer={this.state.buf} />
 				</div>
 				<div style={{position: "absolute", bottom: "0px", width: "87em"}}>
-					<CommBoard ref={(input) => this.commBoard = input} buffer={this.state.buf} stop={() => this.stopScan()}/>
+					<CommBoard ref={(i) => this.commBoard = i} buffer={this.state.buf} stop={() => this.stopScan()} mode="letters"/>
 					<div style={{position: "absolute", bottom: "0px", right: "0px", width: "6em"}}>
 						<input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="set" value={this.state.lang.set} onClick={() => this.set()} />
 						<input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="start" value={this.state.lang.start} onClick={() => this.start()} />
@@ -216,8 +238,8 @@ class App extends React.Component {
 					<Diagnostics set={this.state.settings} lang={this.state.lang} det={this.state.det}/>
 				</div>
 			</div>
-			);
-}
+		);
+	}
 }
 App = Radium(App);
 
