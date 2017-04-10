@@ -202,7 +202,6 @@ class CommBoard extends React.Component {
 	}
 	//RC
 	renderRow(i) {
-		let rowOffset = i * this.columns;
 		if(i == 0) { //render the guess row.
 			return (
 				<tr style={[this.state.rowHL == i && styles.highlightedRow]}>
@@ -212,16 +211,17 @@ class CommBoard extends React.Component {
 		}
 
 		if(i == 5) { //render the function row.
+			let rowOffset = i * this.columns;
 			return (
 				<tr style={[this.state.rowHL == i && styles.highlightedRow]}>
-					<td>{this.renderTextButton(rowOffset, i.toString(), "")}</td>
-					<td>{this.renderFunctionButton(rowOffset + 1, "Delete", () => this.props.buffer.executeAction("delete", () => 1))}</td>
-					<td>{this.renderFunctionButton(rowOffset + 2, "Clear", () => this.props.buffer.executeAction("clear", () => 1))}</td>
-					<td>{this.renderTextButton(rowOffset + 3, "Space", " ")}</td>
-					<td>{this.renderTextButton(rowOffset + 4, ",", ",")}</td>
-					<td>{this.renderTextButton(rowOffset + 5, ".", ".")}</td>
-					<td>{this.renderTextButton(rowOffset + 6, "?", "?")}</td>
-					<td>{this.renderFunctionButton(rowOffset + 7, "Speak", () => {this.props.buffer.executeAction("read", () => 1); this.props.stop();})}</td>
+					<td>{this.renderTextButton(rowOffset++, i.toString(), "")}</td>
+					<td>{this.renderFunctionButton(rowOffset++, "Delete", () => this.props.buffer.executeAction("delete", () => 1))}</td>
+					<td>{this.renderFunctionButton(rowOffset++, "Clear", () => this.props.buffer.executeAction("clear", () => 1))}</td>
+					<td>{this.renderTextButton(rowOffset++, "Space", " ")}</td>
+					<td>{this.renderFunctionButton(rowOffset++, "Phrases", () => this.props.phrMode())}</td>
+					<td>{this.renderTextButton(rowOffset++, ".", ".")}</td>
+					<td>{this.renderTextButton(rowOffset++, "?", "?")}</td>
+					<td>{this.renderFunctionButton(rowOffset++, "Speak", () => {this.props.buffer.executeAction("read", () => 1); this.props.stop();})}</td>
 				</tr>
 				);
 		}
@@ -256,7 +256,7 @@ class CommBoard extends React.Component {
 						<tr><td>{this.renderTextButton(2, phrases[2], phrases[2])}</td></tr>
 						<tr><td>{this.renderTextButton(3, phrases[3], phrases[3])}</td></tr>
 						<tr><td>{this.renderTextButton(4, phrases[4], phrases[4])}</td></tr>
-						<tr><td>{this.renderTextButton(5, phrases[5], phrases[5])}</td></tr>
+						<tr><td>{this.renderFunctionButton(5, "Back", () => this.props.letMode())}</td></tr>
 					</tbody></table>
 				</div>);
 			break;

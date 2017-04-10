@@ -32,7 +32,8 @@ class App extends React.Component {
 			settings: set,
 			lang: set.lang,
 			buf: buffer(this.sp),
-			det: null
+			det: null,
+			mode: "letters"
 		}
 
 		//protect the scope of the listeners
@@ -132,7 +133,9 @@ class App extends React.Component {
 		if(this.row != null) {
 			if(this.button != null) {
 				this.commBoard.selectButton(this.button);
-				this.row = this.button = null;
+				if(this.state.mode == "letters") {
+					this.row = this.button = null;
+				}
 			} else {
 				this.button = this.row * this.commBoard.columns;
 			}
@@ -142,29 +145,48 @@ class App extends React.Component {
 	proceed() {
 		this.intervalStart = new Date();
 
-		if(this.row != null) {
-			if(this.button != null) {//scan through buttons.
-				this.button += 1;
-				if(Math.floor(this.button / this.commBoard.columns) != this.row) {
-					this.button -= this.commBoard.columns - 1;
-				}
-				let b = this.commBoard.highlightButton(this.button);
-				this.sp.speakAsync(b.value.toString());
+		switch(this.state.mode) {
+			case "letters":
+				if(this.row != null) {
+					if(this.button != null) {//scan through buttons.
+						this.button += 1;
+						if(Math.floor(this.button / this.commBoard.columns) != this.row) {
+							this.button -= this.commBoard.columns - 1;
+						}
+						let b = this.commBoard.highlightButton(this.button);
+						this.sp.speakAsync(b.value.toString());
 
-			} else {//scan through rows.
-				this.row = (this.row + 1) % this.commBoard.rows;
-				let b = this.commBoard.highlightRow(this.row);
-				this.sp.speakAsync(b.value.toString());
-			}
-		} else {//start a fresh scan.
-			this.row = 0;
-			let b = this.commBoard.highlightRow(this.row);
-			this.sp.speakAsync(b.value.toString());
+					} else {//scan through rows.
+						this.row = (this.row + 1) % this.commBoard.rows;
+						let b = this.commBoard.highlightRow(this.row);
+						this.sp.speakAsync(b.value.toString());
+					}
+				} else {//start a fresh scan.
+					this.row = 0;
+					let b = this.commBoard.highlightRow(this.row);
+					this.sp.speakAsync(b.value.toString());
+				}
+				break;
+			case "phrases":
+				if(this.button != null) {
+					this.button += 1;
+					if(Math.floor(this.button / this.commBoard.rows) != 0) {
+						this.button -= this.commBoard.rows;
+					}
+					this.commBoard.highlightButton(this.button);
+					this.sp.beep(350, 15);
+				} else {
+					this.row = 0;
+					this.button = 0;
+					this.commBoard.highlightButton(this.button);
+					this.sp.beep(350, 15)
+				}
+				break;
 		}
 	}
 	//RC- capture a set of reference images
 	calibrate() {
-		const WAIT_TIME = 1000;
+		const WAIT_TIME = 500;
 		if(this.state.det) {
 			this.sp.speakAsync(this.state.lang.openEye, () => {
 				this.sp.toneStart(WAIT_TIME);
@@ -176,11 +198,26 @@ class App extends React.Component {
 						setTimeout(() => {
 							this.state.det.captureGaze();
 						}, WAIT_TIME);
-					});
+					}, 50);
 				}, WAIT_TIME);
-			});
+			}, 50);
 		} else {
 			this.sp.speakAsync(this.state.lang.noCamera, () => 1);
+		}
+	}
+	//RC
+	switchMode(mode) {
+		switch(mode) {
+			case "letters":
+				this.setState({mode: "letters"});
+				this.row = this.button = null;
+				break;
+			case "phrases":
+				this.setState({mode: "phrases"});
+				this.row = this.button = null;
+				break;
+			default:
+				throw new Error("invalid mode: " + mode);
 		}
 	}
 	//RC
@@ -200,12 +237,16 @@ class App extends React.Component {
 	//RC
 	pauseScan() {
 		window.clearInterval(this.scan);
+		window.clearTimeout(this.scan);
 		this.scan = "paused";
 	}
 	//RC
 	resumeScan() {
 		if(this.scan == "paused") {
-			window.setTimeout(() => {this.proceed(); this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);}, Math.max(1000 * this.scanSpeed - (new Date() - this.intervalStart), 0));
+			this.scan = window.setTimeout(() => {
+					this.proceed(); 
+					this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
+				}, Math.max(1000 * this.scanSpeed - (new Date() - this.intervalStart), 0));
 		}
 	}
 	//END SCANNING FUNCTIONS
@@ -226,7 +267,7 @@ class App extends React.Component {
 					<Message buffer={this.state.buf} />
 				</div>
 				<div style={{position: "absolute", bottom: "0px", width: "87em"}}>
-					<CommBoard ref={(i) => this.commBoard = i} buffer={this.state.buf} stop={() => this.stopScan()} mode="letters"/>
+					<CommBoard ref={(i) => this.commBoard = i} buffer={this.state.buf} stop={() => this.stopScan()} letMode={() => this.switchMode("letters")} phrMode={() =>this.switchMode("phrases")} mode={this.state.mode}/>
 					<div style={{position: "absolute", bottom: "0px", right: "0px", width: "6em"}}>
 						<input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="set" value={this.state.lang.set} onClick={() => this.set()} />
 						<input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="start" value={this.state.lang.start} onClick={() => this.start()} />
