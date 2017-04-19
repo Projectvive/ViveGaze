@@ -33,7 +33,8 @@ class App extends React.Component {
 			lang: set.lang,
 			buf: buffer(this.sp),
 			det: null,
-			mode: "letters"
+			mode: "letters",
+			fontSize: "100%"
 		}
 
 		//protect the scope of the listeners
@@ -44,6 +45,9 @@ class App extends React.Component {
 		this.detectorEndListener = this.detectorEndListener.bind(this);
 
 		set.addListener(this.settingsListener);
+		window.addEventListener("resize", () => {
+			this.setState({fontSize: Math.floor((window.innerWidth / 1420) * 100).toString() + "%"})
+		}, false);
 	}
 
 	//LISTENERS
@@ -262,7 +266,7 @@ class App extends React.Component {
 	//RC
 	render() {
 		return (
-			<div>
+			<div style={{fontSize: this.state.fontSize}}>
 				<div style={{width: "87em", float: "left"}}>
 					<Message buffer={this.state.buf} />
 				</div>

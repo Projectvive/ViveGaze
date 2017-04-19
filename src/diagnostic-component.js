@@ -13,11 +13,25 @@ class Diagnostics extends React.Component {
     this.state = {
       scanSliderValue: this.settings.scanSpeed,
       gazeSliderValue: this.settings.gazeSpeed,
+      language: this.settings.language,
       lastEventLength: null
     }
 
   }
-  //RC= change a setting.
+  //RC- update settings ui without changing the actual settings(to save disk writes)
+  update(elem) {
+    switch(elem) {
+      case "scanspeed":
+        this.setState({scanSliderValue: this.scanSlider.value});
+        break;
+      case "gazespeed":
+        this.setState({gazeSliderValue: this.gazeSlider.value});
+        break;
+      default:
+        console.log("update: unidendified setting: " + elem);
+    }
+  }
+  //RC- change a setting.
   set(elem) {
     switch(elem) {
       case "scanspeed":
@@ -29,12 +43,15 @@ class Diagnostics extends React.Component {
         this.setState({gazeSliderValue: this.settings.gazeSpeed});
         break;
       case "language":
-        this.settings.lang = this.langSelector.value;
+        this.setState({language: this.langSelector.value});
+        this.settings.language = this.langSelector.value;
         break;
       default:
-        console.log("unidendified setting: " + elem);
+        console.log("set: unidendified setting: " + elem);
     }
   }
+
+  //REACT STUFF
   //RC
   componentWillReceiveProps(props) {
     if(!this.det) {//if the detector isn't initialized accept the new one and add an event listener.
@@ -48,6 +65,15 @@ class Diagnostics extends React.Component {
   componentDidMount() {
     this.scanSlider.value = this.state.scanSliderValue;
     this.gazeSlider.value = this.state.gazeSliderValue;
+    this.langSelector.value = this.state.language;
+  }
+  populateLanguageSelector() {
+    let r = [];
+    let ls = this.settings.languages;
+    for(let i = 0; i < ls.length; i++) {
+      r[i] = <option key={i} value={ls[i]}>{this.props.lang[ls[i]]}</option>
+    }
+    return r;
   }
 	render() {
 		return (
@@ -57,20 +83,19 @@ class Diagnostics extends React.Component {
           <span>{this.props.lang.scanSpeed}: {this.state.scanSliderValue}</span>
           <div id="scanSliderContainer">
             <div id="scanSliderValue"></div>
-            <input type="range" min="1" max="3" step=".1" ref={(i) => this.scanSlider = i} onClick={() => this.set("scanspeed")} />
+            <input type="range" min="1" max="3" step=".1" ref={(i) => this.scanSlider = i} onMouseMove={() => this.update("scanspeed")} onMouseUp={() => this.set("scanspeed")} />
           </div>
           <br/>
           <span>{this.props.lang.blinkSpeed}: {this.state.gazeSliderValue}</span>
           <div id="gazeSliderContainer">
-            <div id="eventLengthValue">{this.props.lang.lastEvent}: {this.state.lastEventLength}</div>
             <div id="gazeSliderValue"></div>
-            <input type="range" min=".1" max="1" step=".05" ref={(i) => this.gazeSlider = i} onClick={() => this.set("gazespeed")} />
+            <input type="range" min=".1" max="1" step=".05" ref={(i) => this.gazeSlider = i} onMouseMove={() => this.update("gazespeed")} onMouseUp={() => this.set("gazespeed")} />
+            <div id="eventLengthValue">{this.props.lang.lastEvent}: {this.state.lastEventLength}</div>
           </div>
           <br/>
           <span>{this.props.lang.language}</span>
           <select name="language" ref={(i) => this.langSelector = i} onChange={() => this.set("language")}>
-            <option value="Spanish">Español</option>
-            <option value="English">English</option>
+            {this.populateLanguageSelector()}
           </select>
         </div>
       </div>
