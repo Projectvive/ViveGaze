@@ -27,7 +27,7 @@ const styles = {
 		color: "#268bd2"
 	},
 	baseButton: {
-		height: "100%",
+		height: "1.333em",
 		width: "95%",
 		margin: "5px",
 		fontSize: "300%",
@@ -151,7 +151,7 @@ class CommBoard extends React.Component {
 		return (<Button
 			key={pos}
 			value={display} 
-			style={[styles.baseButton, styles.functionButton, this.state.buttonHL == pos && styles.highlightedButton]}
+			style={[styles.baseButton, styles.functionButton, this.state.buttonHL == pos && styles.highlightedButton, {fontSize: Math.floor(Math.min(4 / display.length, 1) * 300).toString() + "%", height: (1.333 / Math.min(4 / display.length, 1)).toString() + "em"}]}
 			func={() => {func(); this.generateGuesses();}}
 			ref={(i) => this.buttons[pos] = i} />);
 	}
@@ -161,7 +161,7 @@ class CommBoard extends React.Component {
 		return (<Button 
 			key={pos}
 			value={display} 
-			style={[styles.baseButton, styles.textButton, this.state.buttonHL == pos && styles.highlightedButton]}
+			style={[styles.baseButton, styles.textButton, this.state.buttonHL == pos && styles.highlightedButton, {fontSize: Math.floor(Math.min(4 / display.length, 1) * 300).toString() + "%", height: (1.333 / Math.min(4 / display.length, 1)).toString() + "em"}]}
 			func={func}
 			ref={(i) => this.buttons[pos] = i} />);
 	}
@@ -180,6 +180,7 @@ class CommBoard extends React.Component {
 	renderLetterButton(pos, value) {
 		return this.renderTextButton(pos, value, value);
 	}
+	//RC- write the guess label, then iterate through the guesses and render each as a button across the row
 	renderGuessButtons(row) {
 		let r = [];
 		r[0] = <td key={row * this.columns}>{this.renderTextButton(row * this.columns, "Guess", "")}</td>;
@@ -196,7 +197,7 @@ class CommBoard extends React.Component {
 		return (<Button 
 			key={pos}
 			value={word} 
-			style={[styles.baseButton, styles.textButton, this.state.buttonHL == pos && styles.highlightedButton]} 
+			style={[styles.baseButton, styles.textButton, this.state.buttonHL == pos && styles.highlightedButton, {fontSize: Math.floor(Math.min(4 / word.length, 1) * 300).toString() + "%", height: (1.333 / Math.min(4 / word.length, 1)).toString() + "em"}]} 
 			func={func}
 			ref={(i) => this.buttons[pos] = i} />);
 	}

@@ -34,7 +34,7 @@ class App extends React.Component {
 			buf: buffer(this.sp),
 			det: null,
 			mode: "letters",
-			fontSize: "100%"
+			fontSize: Math.floor((window.innerWidth / 1420) * 100).toString() + "%"
 		}
 
 		//protect the scope of the listeners
@@ -267,7 +267,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div style={{fontSize: this.state.fontSize}}>
-				<div style={{width: "87em", float: "left"}}>
+				<div style={{width: "85em", float: "left"}}>
 					<Message buffer={this.state.buf} />
 				</div>
 				<div style={{position: "absolute", bottom: "0px", width: "87em"}}>
