@@ -298,7 +298,7 @@ class CommBoard extends React.Component {
     	  	let json = JSON.stringify(wordBank);
 			bs.setItem(this.props.language, json);
 			let jso = JSON.stringify(wordBankPriority);
-			bs.setItem(this.props.language+priority, jso);
+			bs.setItem(this.props.language+'priority', jso);
     	  
     	  } 
       }
