@@ -27,7 +27,7 @@
   "scripts": {
     "lint": "jshint src/*.js",
     "prebuild": "browserify src/app.js -o src/bundle.js -t [ babelify --presets [ es2015 react ] ]",
-    "run": "./node_modules/electron-prebuilt/dist/electron.exe .",
+    "run": "./node_modules/electron/dist/electron.exe .",
     "build": "electron-zip-packager . wedjat --platform=darwin,linux,win32 --arch=all --out=dist",
     "build-win32": "electron-zip-packager . wedjat --platform=win32 --arch=all --out=dist",
     "clean": "rm -r dist"

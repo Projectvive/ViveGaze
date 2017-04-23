@@ -3,7 +3,7 @@ const EventEmitter = require("events");
 const bs = require('browser-storage');
 
 // Words used in program and translations
-const languages = ["english", "spanish"]; //enumerate available languages here
+const languages = ["english", "spanish","portuguese"]; //enumerate available languages here
 
 const langEN = { //English do keep this alphabetized
 	blinkSpeed: "Blink Speed",
@@ -17,6 +17,7 @@ const langEN = { //English do keep this alphabetized
 	layout: "Layout",
 	noCamera: "No camera detected",
 	openEye: "Please hold your eye open",
+	portuguese:"Portuguese",
 	rest: "Rest",
 	scanSpeed: "Scan Speed",
 	set: "Set",
@@ -39,6 +40,7 @@ const langES = { //Spanish do keep this alphabetized
 	layout: "Diseño",
 	noCamera: "No se ha detectado ninguna cámara",
 	openEye: "Por favor abra su ojo",
+	portuguese:"Português",
 	rest: "Descansa",
 	scanSpeed: "Velocidad de exploración",
 	set: "Establece",
@@ -47,6 +49,28 @@ const langES = { //Spanish do keep this alphabetized
 	start: "Comienzo",
 	stop: "Deténgase",
 	videofeed: "Video en vivo"
+}
+const langPOR={ //portuguese
+	blinkSpeed: "Velocidade de piscar",
+	capture: " Captura",
+	closeEye: "Por favor, aguarde a fechada de olho",
+	english: "Inglés",
+	gaze: "Olhar",
+	guess: "Acho que",
+	language: "Linguagem",
+	lastEvent: "Último evento",
+	layout: "Layout",
+	noCamera: "Nenhuma câmera detectada",
+	openEye: "Por favor mantenha o olho aberto",
+	portuguese:"Português",
+	rest: "Resto",
+	scanSpeed: "Velocidade, de digitalização",
+	set: "Conjunto",
+	settings: "Configurações",
+	spanish: "Espanhol",
+	start: "Começar",
+	stop: "Parar",
+	videofeed: "Vídeo alimentação"
 }
 //Ryan Campbell
 function settings() {
@@ -79,6 +103,9 @@ function settings() {
 			break;
 			case "spanish":
 			return langES;
+			break;
+			case "portuguese":
+			return langPOR;
 			break;
 			default:
 			console.error("invalid language: " + prefs.lang)
