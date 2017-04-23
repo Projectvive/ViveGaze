@@ -318,10 +318,11 @@ class CommBoard extends React.Component {
 				
 				for(let x=0;x<word.length;x++)
 				{
-						word[x].replace(".","");
-						word[x].replace("?","");
-						word[x].replace("_","");
-					if(wordBank.includes(word[x]))
+						word[x]=word[x].replace(".","");
+						word[x]=word[x].replace("?","");
+						word[x]=word[x].replace("_","");
+						
+							if(wordBank.includes(word[x]))
 					{
 						wordBankPriority[wordBank.indexOf(word[x])]++;
 					}
