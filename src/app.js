@@ -32,7 +32,7 @@ class App extends React.Component {
 			settings: set,
 			lang: set.lang,
 			buf: buffer(this.sp),
-			
+			language:set.language,
 			det: null,
 			mode: "letters",
 			fontSize: Math.floor((window.innerWidth / 1420) * 100).toString() + "%"
@@ -272,7 +272,7 @@ class App extends React.Component {
 					<Message buffer={this.state.buf} />
 				</div>
 				<div style={{position: "absolute", bottom: "0px", width: "87em"}}>
-					<CommBoard ref={(i) => this.commBoard = i} buffer={this.state.buf}  stop={() => this.stopScan()} letMode={() => this.switchMode("letters")} phrMode={() =>this.switchMode("phrases")} mode={this.state.mode}/>
+					<CommBoard ref={(i) => this.commBoard = i} buffer={this.state.buf} language={this.state.language}  stop={() => this.stopScan()} letMode={() => this.switchMode("letters")} phrMode={() =>this.switchMode("phrases")} mode={this.state.mode}/>
 					<div style={{position: "absolute", bottom: "0px", right: "0px", width: "6em"}}>
 						<input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="set" value={this.state.lang.set} onClick={() => this.set()} />
 						<input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="start" value={this.state.lang.start} onClick={() => this.start()} />
