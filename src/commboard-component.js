@@ -168,7 +168,7 @@ class CommBoard extends React.Component {
 *     -all words have assosiated priority
 */
 	  	
-	  	/*
+	  	
 	  			let data=bs.getItem('langwordBank');//import the language for algorithum
 	  			let dataSplit=JSON.parse(data); // parse it
 	  			data=bs.getItem('langwordBankPriorityity');// import the second array of 
@@ -179,7 +179,7 @@ class CommBoard extends React.Component {
 	  					wordBank=dataSplit;//set alg string Array
 	  					wordBankPriority=priotity; // set word priority
 	  			}
-	  			else*/
+	  			else
 	  			{ 
 	  				let defaltwordBank;
 	  				
