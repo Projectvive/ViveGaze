@@ -407,14 +407,16 @@ class CommBoard extends React.Component {
 			let rowOffset = i * this.columns;
 			return (
 				<tr style={[this.state.rowHL == i && styles.highlightedRow]}>
-					<td>{this.renderTextButton(rowOffset++, i.toString(), "")}</td>
+				<td>{this.renderTextButton(rowOffset++, i.toString(), "")}</td>
+					<td>{this.renderFunctionButton(rowOffset++, "Speak", () => {this.props.buffer.executeAction("read", () => 1);this.generateGuesses(false,'');this.props.stop();})}</td>
+					
 					<td>{this.renderFunctionButton(rowOffset++, "Delete", () => this.props.buffer.executeAction("delete", () => 1))}</td>
 					<td>{this.renderFunctionButton(rowOffset++, "Clear", () => this.props.buffer.executeAction("clear", () => 1))}</td>
 					<td>{this.renderTextButton(rowOffset++, "Space", " ")}</td>
 					<td>{this.renderFunctionButton(rowOffset++, "Phrases", () => this.props.phrMode())}</td>
 					<td>{this.renderTextButton(rowOffset++, ".", ".")}</td>
 					<td>{this.renderTextButton(rowOffset++, "?", "?")}</td>
-					<td>{this.renderFunctionButton(rowOffset++, "Speak", () => {this.props.buffer.executeAction("read", () => 1);this.generateGuesses(false,'');this.props.stop();})}</td>
+					
 				</tr>
 				);
 		}
