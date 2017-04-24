@@ -44,12 +44,12 @@ const langES=[//spanish
 	  
 	  
 	  ]
-	  const layout_default = [' ', 'a', 'b', 'c', 'd', 'e', 'f', ' ',
+	  const layout_default = [' ', 'a', 'b', 'c', 'd', 'e', 'f', ' ',' ',
 
- ' ', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
- ' ' , 'n', 'o', 'p', 'q', 'r', 's', ' ',
- ' ', 't', 'u', 'v', 'w', 'x', 'y', 'z',
- ' ', 'é', 'á', 'í', 'ü', 'ó', 'ú', 'ñ'
+ ' ', 'g', 'h', 'i', 'j', 'k', 'l', 'm',' ',
+ ' ' , 'n', 'o', 'p', 'q', 'r', 's', ' ',' ',
+ ' ', 't', 'u', 'v', 'w', 'x', 'y', 'z',' ',
+ ' ', 'é', 'á', 'í', 'ü', 'ó', 'ú', 'ñ',' '
  ];
  const styles= {
 	container: {
@@ -113,7 +113,7 @@ class CommBoard extends React.Component {
 	constructor(props) {
 		super(props);
 		this.rows = 7;
-		this.columns = 8;
+		this.columns = 9;
 		this.buttons = [];
 		this.state = {
 			guesses: [],
@@ -144,14 +144,14 @@ class CommBoard extends React.Component {
 	selectButton(i) {
 		if(this.buttons[i]) {
 			this.buttons[i].func();
-			this.generateGuesses(true,"");
+			this.generateGuesses(true,"",false);
 		}
 		this.clearHighlight();
 	}
 	//END SCANNING FUNCTIONS
 
 	//GUESS GENERATION
-	generateGuesses(switcher,amend) {
+	generateGuesses(switcher,amend,merge) {
  	  	const NUM_GUESSES = this.columns;
 	  	 var wordBank=[];//paired with wordBankPriority as wordBank has words and Priority has word priority 
 	  	 var wordBankPriority=[];//priority
@@ -286,6 +286,40 @@ class CommBoard extends React.Component {
       			   
       }else
     	  {
+    	  if(merge)
+    		  {
+    		  let text = this.props.buffer.getText().split(" ").slice(-1)[0].slice(0, -1);
+    		  let defaltwordBank;
+				switch(text){
+				case "english":
+				{
+				defaltwordBank=langEN;// theese are dictionarys at the top of the file 
+				break;
+				}case "spanish":
+				{
+					defaltwordBank=langES;
+					break;	  						
+				}
+				case "portuguese":
+				{
+					defaltwordBank=langPOR;
+					break; 						
+				}
+				}
+			for(let x=0;x<defaltwordBank.length;x++)
+				{
+				
+				wordBank.push(defaltwordBank[x][0]);
+				
+				wordBankPriority.push(parseInt(defaltwordBank[x][1]));
+				}
+    		  
+    		  
+    		  
+    		  
+    		  
+    		  
+    		  }else{
     	  let amend=[];
     	  amend =  this.amendwordBank(wordBank,wordBankPriority);
     	  if (amend.length>0)
@@ -294,13 +328,13 @@ class CommBoard extends React.Component {
     		  {
     			  wordBankPriority[wordBankPriority.length]=1;
     			  wordBank[wordBank.length]=(amend[x]);
-    		  }}
+    		  }}}
     	  	let json = JSON.stringify(wordBank);
 			bs.setItem(this.props.language, json);
 			let jso = JSON.stringify(wordBankPriority);
 			bs.setItem(this.props.language+'priority', jso);
     	  
-    	  } 
+    	   }
       }
       // not so self explanitory but close if ammending is false then it will iterate the algorithums uasage count
 	  // also speach is for the speach inclusion functionel
@@ -345,12 +379,12 @@ class CommBoard extends React.Component {
 			key={pos}
 			value={display} 
 			style={[styles.baseButton, styles.functionButton, this.state.buttonHL == pos && styles.highlightedButton, {fontSize: Math.floor(Math.min(4 / display.length, 1) * 300).toString() + "%", height: (1.333 / Math.min(4 / display.length, 1)).toString() + "em"}]}
-			func={() => {func(); this.generateGuesses(true,"");}}
+			func={() => {func(); this.generateGuesses(true,"",false);}}
 			ref={(i) => this.buttons[pos] = i} />);
 	}
 	//RC- render a React text button
 	renderTextButton(pos, display, value) {//value is what is passed to the buffer
-		let func = () => {this.props.buffer.write(value, "letter"); this.generateGuesses(true,"");};
+		let func = () => {this.props.buffer.write(value, "letter"); this.generateGuesses(true,"",false);};
 		return (<Button 
 			key={pos}
 			value={display} 
@@ -386,7 +420,7 @@ class CommBoard extends React.Component {
 	}
 	//RC
 	renderGuessButton(pos, word) {
-		let func = () => {this.props.buffer.write(word, "word"); this.generateGuesses(true,"");};
+		let func = () => {this.props.buffer.write(word, "word"); this.generateGuesses(true,"",false);};
 		return (<Button 
 			key={pos}
 			value={word} 
@@ -409,7 +443,7 @@ class CommBoard extends React.Component {
 			return (
 				<tr style={[this.state.rowHL == i && styles.highlightedRow]}>
 				<td>{this.renderTextButton(rowOffset++, i.toString(), "")}</td>
-					<td>{this.renderFunctionButton(rowOffset++, "Speak", () => {this.props.buffer.executeAction("read", () => 1);this.generateGuesses(false,'');this.props.stop();})}</td>
+					<td>{this.renderFunctionButton(rowOffset++, "Speak", () => {this.props.buffer.executeAction("read", () => 1);this.generateGuesses(false,'',false);this.props.stop();})}</td>
 					
 					<td>{this.renderFunctionButton(rowOffset++, "Delete", () => this.props.buffer.executeAction("delete", () => 1))}</td>
 					<td>{this.renderFunctionButton(rowOffset++, "Clear", () => this.props.buffer.executeAction("clear", () => 1))}</td>
@@ -417,7 +451,7 @@ class CommBoard extends React.Component {
 					<td>{this.renderFunctionButton(rowOffset++, "Phrases", () => this.props.phrMode())}</td>
 					<td>{this.renderTextButton(rowOffset++, ".", ".")}</td>
 					<td>{this.renderTextButton(rowOffset++, "?", "?")}</td>
-					
+					<td>{this.renderFunctionButton(rowOffset++, "Merge Dictionarys", ()=>this.generateGuesses(false,'',true))}</td>
 				</tr>
 				);
 		}
