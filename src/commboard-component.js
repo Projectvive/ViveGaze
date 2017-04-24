@@ -87,7 +87,7 @@ const langES=[//spanish
 		color: "#ffffff"
 	}
 };
-const phrases = ["I'm uncomfortable", "I'm hungry", "I'm thirsty", "a", "b", "c"]
+const phrases = ["I'm uncomfortable", "I'm hungry", "I'm thirsty", "Medicine", "Toilet", "c"]
 class Button extends React.Component {
 	constructor(props) {
 		super(props);
