@@ -313,12 +313,6 @@ class CommBoard extends React.Component {
 				
 				wordBankPriority.push(parseInt(defaltwordBank[x][1]));
 				}
-    		  
-    		  
-    		  
-    		  
-    		  
-    		  
     		  }else{
     	  let amend=[];
     	  amend =  this.amendwordBank(wordBank,wordBankPriority);
@@ -326,7 +320,7 @@ class CommBoard extends React.Component {
     		  {
     		  for(let x=0;x<amend.length;x++)
     		  {
-    			  wordBankPriority[wordBankPriority.length]=1;
+    			  wordBankPriority[wordBankPriority.length]=7;
     			  wordBank[wordBank.length]=(amend[x]);
     		  }}}
     	  	let json = JSON.stringify(wordBank);
