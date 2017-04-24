@@ -320,7 +320,7 @@ class CommBoard extends React.Component {
     		  {
     		  for(let x=0;x<amend.length;x++)
     		  {
-    			  wordBankPriority[wordBankPriority.length]=7;
+    			  wordBankPriority[wordBankPriority.length]=9;
     			  wordBank[wordBank.length]=(amend[x]);
     		  }}}
     	  	let json = JSON.stringify(wordBank);
