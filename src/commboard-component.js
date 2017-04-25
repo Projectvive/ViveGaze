@@ -87,7 +87,7 @@ const langES=[//spanish
 		color: "#ffffff"
 	}
 };
-const phrases = ["I'm uncomfortable", "I'm hungry", "I'm thirsty", "Medicine", "Toilet", "c"]
+const phrases = ["I'm uncomfortable", "I'm hungry", "I'm thirsty", "Medicine", "Toilet", "I love You","Cough Machine","Dry Mouth","Sucker","Spit","Finish"]
 class Button extends React.Component {
 	constructor(props) {
 		super(props);
@@ -476,12 +476,12 @@ class CommBoard extends React.Component {
 			return(
 				<div style={[styles.container]}>
 					<table style={[styles.table]}><tbody>
-						<tr><td>{this.renderTextButton(0, phrases[0], phrases[0])}</td></tr>
-						<tr><td>{this.renderTextButton(1, phrases[1], phrases[1])}</td></tr>
-						<tr><td>{this.renderTextButton(2, phrases[2], phrases[2])}</td></tr>
-						<tr><td>{this.renderTextButton(3, phrases[3], phrases[3])}</td></tr>
-						<tr><td>{this.renderTextButton(4, phrases[4], phrases[4])}</td></tr>
-						<tr><td>{this.renderFunctionButton(5, "Back", () => this.props.letMode())}</td></tr>
+						<tr><td>{this.renderTextButton(0, phrases[0], phrases[0])}</td><td>{this.renderTextButton(1, phrases[1], phrases[1])}</td></tr>
+						<tr><td>{this.renderTextButton(2, phrases[2], phrases[2])}</td><td>{this.renderTextButton(3, phrases[3], phrases[3])}</td></tr>
+						<tr><td>{this.renderTextButton(4, phrases[4], phrases[4])}</td><td>{this.renderTextButton(5, phrases[5], phrases[5])}</td></tr>
+						<tr><td>{this.renderTextButton(6, phrases[6], phrases[6])}</td><td>{this.renderTextButton(7, phrases[7], phrases[7])}</td></tr>
+						<tr><td>{this.renderTextButton(8, phrases[8], phrases[8])}</td><td>{this.renderTextButton(9, phrases[9], phrases[9])}</td></tr>
+						<tr><td>{this.renderTextButton(10, phrases[10], phrases[10])}</td><td>{this.renderFunctionButton(5, "Back", () => this.props.letMode())}</td></tr>
 					</tbody></table>
 				</div>);
 			break;
