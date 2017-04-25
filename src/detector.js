@@ -81,15 +81,9 @@ class GazeDetector extends Detector {
     detect() {
         // Compares current video frame to templates. Emits events if change occurred.
         let streamPixels = this.stream.getPixels();
-        let newState;
-        let time = new Date();
-        for(let i = 0; i < 1000; i++) {
-            let dRest = l1Distance(streamPixels, this.rest.getPixels());
-            let dGaze = l1Distance(streamPixels, this.gaze.getPixels());
-            newState = (dGaze < dRest) ? "gaze" : "rest";
-        }
-        time = new Date() - time;
-        console.log(time);
+        let dRest = l1Distance(streamPixels, this.rest.getPixels());
+        let dGaze = l1Distance(streamPixels, this.gaze.getPixels());
+        let newState = (dGaze < dRest) ? "gaze" : "rest";
 
         if (this.resting && newState === "gaze") {
             this.eventStart = new Date();
