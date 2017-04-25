@@ -21,7 +21,7 @@ class App extends React.Component {
 		
 		this.sp = speaker();
 		let set = settings();
-
+		this.phrases=null
 		this.row = null;
 		this.button = null;
 		this.scan = null;
@@ -63,7 +63,7 @@ class App extends React.Component {
 	//RC- listen for changes to the settings
 	settingsListener() {
 		if(this.state.lang != this.state.settings.lang) {//maybe change the language
-			this.setState({lang: this.state.settings.lang});
+			this.setState({lang: this.state.settings.lang, language: this.state.settings.language});
 		}
 
 		if(this.scanSpeed != this.state.settings.scanSpeed) {
@@ -174,9 +174,10 @@ class App extends React.Component {
 				break;
 			case "phrases":
 				if(this.button != null) {
+					console.log(this.phrases+ this.button);
 					this.button += 1;
-					if(Math.floor(this.button / this.commBoard.rows) != 0) {
-						this.button -= this.commBoard.rows;
+					if(Math.floor(this.button / (this.phrases.length + 1)) != 0) {
+						this.button -= (this.phrases.length + 1);
 					}
 					this.commBoard.highlightButton(this.button);
 					this.sp.beep(350, 15);
@@ -220,6 +221,7 @@ class App extends React.Component {
 			case "phrases":
 				this.setState({mode: "phrases"});
 				this.row = this.button = null;
+				this.phrases = this.commBoard.phrases;
 				break;
 			default:
 				throw new Error("invalid mode: " + mode);

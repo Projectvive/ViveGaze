@@ -115,6 +115,7 @@ class CommBoard extends React.Component {
 		this.rows = 7;
 		this.columns = 9;
 		this.buttons = [];
+		this.phrases = phrases;
 		this.state = {
 			guesses: [],
 			letters: layout_default,
@@ -481,7 +482,7 @@ class CommBoard extends React.Component {
 						<tr><td>{this.renderTextButton(4, phrases[4], phrases[4])}</td><td>{this.renderTextButton(5, phrases[5], phrases[5])}</td></tr>
 						<tr><td>{this.renderTextButton(6, phrases[6], phrases[6])}</td><td>{this.renderTextButton(7, phrases[7], phrases[7])}</td></tr>
 						<tr><td>{this.renderTextButton(8, phrases[8], phrases[8])}</td><td>{this.renderTextButton(9, phrases[9], phrases[9])}</td></tr>
-						<tr><td>{this.renderTextButton(10, phrases[10], phrases[10])}</td><td>{this.renderFunctionButton(5, "Back", () => this.props.letMode())}</td></tr>
+						<tr><td>{this.renderTextButton(10, phrases[10], phrases[10])}</td><td>{this.renderFunctionButton(11, "Back", () => this.props.letMode())}</td></tr>
 					</tbody></table>
 				</div>);
 			break;
