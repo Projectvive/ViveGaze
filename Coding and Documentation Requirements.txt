@@ -1,18 +1,29 @@
- Coding & Documentation Standards
+Name: Project Vive Minimal required Documentation and Coding Standards 
+Author: Joe McCulloch
+Date: 2/16/2017    Updates: 
+Purpose: Provide a  format  guide for all general technical documents .
 
-Comment/document the Main and all functions as follows ;
+Applies to: such as requirements,  task Requirements, specifications,algorithm descriptions, Methods, How To Hints, Operator's Manuals, Help documents, and  etc.
 
-/*
+“Name” :Subject or Task Name or Algorithm Name or Project Name etc.
+“Author:”  Your name and others who write or change this document
+“Date: “ , first creation date , “Updates” , dates of updates to this document, with their own very                                                short “ purpose hint and initials of the person doing the updating.
+“Purpose:: Statement of purpose, no more than one line of text
+
+Example of this documentation standard applied to a “C” program,
+Adapt as appropriate for C#, Java script, Java, C++ etc, satisfy the “intent”.
+
+ /*
 *	 Function ( or Main) Name:                            
-* 	Author:		                         
-*       Date:	    	
+* 	Author:		                        
+*  	 Date:	    	
 *	Purpose:
-*	Updates: (date)   Purpose: 
-*	Inputs:                                 // include all variables passed and returned	   
-*	Outputs:		         // including , globals, arrays, libraries 
+*	Updates: (date)  , Initials,  Short Purpose: approx 20 characters 
+*	Inputs:                                 // include all variables, files  passed and returned   
+*	Outputs:		         // including , globals, arrays, files 
 */
 
-Include block comments as follows:
+Include block comments as follows: approx every 10 instructions: 
 /*  
 *      This is an example block comment explaining purpose the following code
 */
@@ -20,31 +31,4 @@ Include block comments as follows:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Coding and Documentation Requirements    Updated 7/12/2015 jwm
-
+Coding and Documentation Requirements  Updated 2/16/2017 jwm
