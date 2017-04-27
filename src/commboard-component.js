@@ -44,12 +44,12 @@ const langES=[//spanish
 	  
 	  
 	  ]
-	  const layout_default = [' ', 'a', 'b', 'c', 'd', 'e', 'f', ' ',' ',
+	  const layout_default = [' ', 'a', 'b', 'c', 'd', 'e', 'f', '.',
 
- ' ', 'g', 'h', 'i', 'j', 'k', 'l', 'm',' ',
- ' ' , 'n', 'o', 'p', 'q', 'r', 's', ' ',' ',
- ' ', 't', 'u', 'v', 'w', 'x', 'y', 'z',' ',
- ' ', 'é', 'á', 'í', 'ü', 'ó', 'ú', 'ñ',' '
+ ' ', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+ ' ' , 'n', 'o', 'p', 'q', 'r', 's', '?',
+ ' ', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+ ' ', 'é', 'á', 'í', 'ü', 'ó', 'ú', 'ñ',
  ];
  const styles= {
 	container: {
@@ -113,9 +113,10 @@ class CommBoard extends React.Component {
 	constructor(props) {
 		super(props);
 		this.rows = 7;
-		this.columns = 9;
+		this.columns = 8;
 		this.buttons = [];
 		this.phrases = phrases;
+		this.labelLength = 4;
 		this.state = {
 			guesses: [],
 			letters: layout_default,
@@ -251,7 +252,7 @@ class CommBoard extends React.Component {
 			{
 				let r = [];
 				let disp1ind=[];
-				for(let x=0;x<NUM_GUESSES-1;x++)// alg array searching 
+				for(let x =0;x<NUM_GUESSES;x++)// alg array searching 
 				{
 					let max=-1;
 					for(index=0;index< arraywordBank.length;index++)
@@ -367,13 +368,23 @@ class CommBoard extends React.Component {
 	//END GUESS GENERATION
 
 	//REACT STUFF
+	componentWillReceiveProps(props) {
+		switch(props.mode) {
+			case "letters":
+				this.labelLength = 4;
+				break;
+			case "phrases":
+				this.labelLength = 16;
+				break;
+		}
+	}
 	//For all the following buttons, pos is the position in the commboard button array and display is what is displayed on the UI
 	//RC- render a React function button.
 	renderFunctionButton(pos, display, func) {
 		return (<Button
 			key={pos}
 			value={display} 
-			style={[styles.baseButton, styles.functionButton, this.state.buttonHL == pos && styles.highlightedButton, {fontSize: Math.floor(Math.min(4 / display.length, 1) * 300).toString() + "%", height: (1.333 / Math.min(4 / display.length, 1)).toString() + "em"}]}
+			style={[styles.baseButton, styles.functionButton, this.state.buttonHL == pos && styles.highlightedButton, {fontSize: Math.floor(Math.min(this.labelLength / display.length, 1) * 300).toString() + "%", height: (1.333 / Math.min(this.labelLength / display.length, 1)).toString() + "em"}]}
 			func={() => {func(); this.generateGuesses(true,"",false);}}
 			ref={(i) => this.buttons[pos] = i} />);
 	}
@@ -383,7 +394,7 @@ class CommBoard extends React.Component {
 		return (<Button 
 			key={pos}
 			value={display} 
-			style={[styles.baseButton, styles.textButton, this.state.buttonHL == pos && styles.highlightedButton, {fontSize: Math.floor(Math.min(4 / display.length, 1) * 300).toString() + "%", height: (1.333 / Math.min(4 / display.length, 1)).toString() + "em"}]}
+			style={[styles.baseButton, styles.textButton, this.state.buttonHL == pos && styles.highlightedButton, {fontSize: Math.floor(Math.min(this.labelLength / display.length, 1) * 300).toString() + "%", height: (1.333 / Math.min(this.labelLength / display.length, 1)).toString() + "em"}]}
 			func={func}
 			ref={(i) => this.buttons[pos] = i} />);
 	}
@@ -392,6 +403,7 @@ class CommBoard extends React.Component {
 		const FIRST_LETTER_ROW = 1;
 		let r = [];
 		r[0] = <td key={row * this.columns}>{this.renderTextButton(row * this.columns, (row + 1 - FIRST_LETTER_ROW).toString(), "")}</td>;
+
 		for(let i = 1; i < this.columns; i++) {
 			let pos = row * this.columns + i;
 			r[i] = <td key={pos}>{this.renderLetterButton(pos, this.state.letters[(row - FIRST_LETTER_ROW) * this.columns + i])}</td>;
@@ -419,7 +431,7 @@ class CommBoard extends React.Component {
 		return (<Button 
 			key={pos}
 			value={word} 
-			style={[styles.baseButton, styles.textButton, this.state.buttonHL == pos && styles.highlightedButton, {fontSize: Math.floor(Math.min(4 / word.length, 1) * 300).toString() + "%", height: (1.333 / Math.min(4 / word.length, 1)).toString() + "em"}]} 
+			style={[styles.baseButton, styles.textButton, this.state.buttonHL == pos && styles.highlightedButton, {fontSize: Math.floor(Math.min(this.labelLength / word.length, 1) * 300).toString() + "%", height: (1.333 / Math.min(this.labelLength / word.length, 1)).toString() + "em"}]} 
 			func={func}
 			ref={(i) => this.buttons[pos] = i} />);
 	}
@@ -440,13 +452,11 @@ class CommBoard extends React.Component {
 				<td>{this.renderTextButton(rowOffset++, i.toString(), "")}</td>
 					<td>{this.renderFunctionButton(rowOffset++, "Speak", () => {this.props.buffer.executeAction("read", () => 1);this.generateGuesses(false,'',false);this.props.stop();})}</td>
 					
+					<td>{this.renderFunctionButton(rowOffset++, "Phrases", () => this.props.phrMode())}</td>
+					<td>{this.renderTextButton(rowOffset++, "Space", " ")}</td>
 					<td>{this.renderFunctionButton(rowOffset++, "Delete", () => this.props.buffer.executeAction("delete", () => 1))}</td>
 					<td>{this.renderFunctionButton(rowOffset++, "Clear", () => this.props.buffer.executeAction("clear", () => 1))}</td>
-					<td>{this.renderTextButton(rowOffset++, "Space", " ")}</td>
-					<td>{this.renderFunctionButton(rowOffset++, "Phrases", () => this.props.phrMode())}</td>
-					<td>{this.renderTextButton(rowOffset++, ".", ".")}</td>
-					<td>{this.renderTextButton(rowOffset++, "?", "?")}</td>
-					<td>{this.renderFunctionButton(rowOffset++, "Merge Dictionarys", ()=>this.generateGuesses(false,'',true))}</td>
+					<td>{this.renderFunctionButton(rowOffset++, "Multilanguage", ()=>this.generateGuesses(false,'',true))}</td>
 				</tr>
 				);
 		}
