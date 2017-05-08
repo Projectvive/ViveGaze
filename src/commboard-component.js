@@ -153,8 +153,9 @@ class CommBoard extends React.Component {
 	//END SCANNING FUNCTIONS
 
 	//GUESS GENERATION
-	generateGuesses(switcher,amend,merge) {
- 	  	const NUM_GUESSES = this.columns;
+	generateGuesses(switcher,amend,merge) 
+	{
+ 	  	 const NUM_GUESSES = this.columns;
 	  	 var wordBank=[];//paired with wordBankPriority as wordBank has words and Priority has word priority 
 	  	 var wordBankPriority=[];//priority
 		 /*
@@ -174,197 +175,194 @@ class CommBoard extends React.Component {
 */
 	  	
 	  	 		
-	  			let data=bs.getItem(this.props.language);//import the language for algorithum
-	  			let dataSplit=JSON.parse(data); // parse it
-	  			data=bs.getItem(this.props.language+'priority');// import the second array of 
-	  			let immportance= JSON.parse(data); // parse prior
-	  			var priotity =(immportance);//make int
-	  			if(dataSplit!=null)// if there was a prior save
+	  		let data=bs.getItem(this.props.language);//import the language for algorithum
+	  		let dataSplit=JSON.parse(data); // parse it
+	  		data=bs.getItem(this.props.language+'priority');// import the second array of 
+	  		let immportance= JSON.parse(data); // parse prior
+	  		var priotity =(immportance);//make int
+	  		if(dataSplit!=null)// if there was a prior save
+	  		{
+	  				wordBank=dataSplit;//set alg string Array
+	  				wordBankPriority=priotity; // set word priority
+	  		}
+	  		else
+	  		{ 
+	  			let defaltwordBank;
+	  			switch(this.props.language)
 	  			{
-	  					wordBank=dataSplit;//set alg string Array
-	  					wordBankPriority=priotity; // set word priority
-	  			}
-	  			else
-	  			{ 
-	  				let defaltwordBank;
-	  					switch(this.props.language){
-	  					case "english":
-	  					{
+	  				case "english":
+	  				{
 	  					defaltwordBank=langEN;// theese are dictionarys at the top of the file 
 	  					break;
-	  					}case "spanish":
-	  					{
-	  						defaltwordBank=langES;
-	  						break;	  						
-	  					}
-	  					case "portuguese":
-	  					{
-	  						defaltwordBank=langPOR;
-	  						break; 						
-	  					}
-	  					}
-	  				for(let x=0;x<defaltwordBank.length;x++)
-	  					{
-	  					
-	  					wordBank[x]=defaltwordBank[x][0];
-	  					
-	  					wordBankPriority[x]=parseInt(defaltwordBank[x][1]);
-	  					}
+	  				}
+	  				case "spanish":
+	  				{
+	  					defaltwordBank=langES;
+	  					break;	  						
+	  				}
+	  				case "portuguese":
+	  				{
+	  					defaltwordBank=langPOR;
+	  					break; 						
+	  				}
 	  			}
+	  			for(let x=0;x<defaltwordBank.length;x++)
+	  			{
+	  				wordBank[x]=defaltwordBank[x][0];
+	  				wordBankPriority[x]=parseInt(defaltwordBank[x][1]);
+	  			}
+	  		}
 	  		
 	  		
-	  	function WordSearch(text, success, failure) 
-	  	{
 	  		
 	  		
-			//var array= searchArray(text.length-1,wordBank,text);
-	  		let arraywordBank=[];
-	  		let arraywordBankPriority=[];
-			//alt-Zach searches array to return words that have matching beginnings
+	  		
+	  		// this is here to tell what functions are running in what order, if at all.
+	  		if(switcher)
+		  	{
+			  	let text = this.props.buffer.getText().split(" ").slice(-1)[0].slice(0, -1);
+	      		if (text === "")
+	      		{
+	    	  		this.setState({guesses: []});
+	      		} 	
+	      		else 
+	      		{
+	      	   		WordSearch(text,(data,status)=>{
+	      	   			let guesses=data;
+	      	   			this.setState({guesses: guesses}),()=> console.log(status)},() => console.log("cannot find words."));
+	      		}	   
+	      	}
+		  	else
+		  	{
+			  	if(merge)
+	    	  	{
+	    		  	let text = this.props.buffer.getText().split(" ").slice(-1)[0].slice(0, -1);
+	    			let defaltwordBank;
+					switch(text)
+					{
+						case "english":
+						{
+							defaltwordBank=langEN;// theese are dictionarys at the top of the file 
+							break;
+						}
+						case "spanish":
+						{
+							defaltwordBank=langES;
+							break;	  						
+						}
+						case "portuguese":
+						{
+							defaltwordBank=langPOR;
+							break; 						
+						}
+					}
+					for(let x=0;x<defaltwordBank.length;x++)
+					{
+						wordBank.push(defaltwordBank[x][0]);
+						wordBankPriority.push(parseInt(defaltwordBank[x][1]));
+					}
+	    	 	}
+	    	  	else
+	    		{
+	    			let amend=[];
+	    			amend =  this.amendwordBank(wordBank,wordBankPriority);
+	    			if (amend.length>0)
+	    			{
+	    				for(let x=0;x<amend.length;x++)
+	    				{
+	    					wordBankPriority[wordBankPriority.length]=9;
+	    					wordBank[wordBank.length]=(amend[x]);
+	    				}
+	    			}
+	    		}
+	    	  	let json = JSON.stringify(wordBank);
+	    		bs.setItem(this.props.language, json);
+	    		let jso = JSON.stringify(wordBankPriority);
+				bs.setItem(this.props.language+'priority', jso);
+	     	}
+	  		
+	  		//alt-Zach searches array to return words that have matching beginnings
 	  		/*search array, this section is a search function 
 			* to return arrays of filtered results to words that have the same begining as the text input  
 			* mary:searches through local dictionary to find words with the same beginings as the text input
 			* joe:search local wordBank dictionary to return words whose begining letters match the text typed so far
 	  		*/
-			{
+	  		function WordSearch(text, success, failure) 
+	  		{
+	  			let arraywordBank=[];
+	  			let arraywordBankPriority=[];
 	  			let index=0; 
 	  	      	let newArraywordBank=[];
 	  	      	let newArraywordBankPriority=[];
 	  	      	for(let x=0;x<wordBank.length;x++)// itterate through array
 	  	      	{  
-	  	      			let words=wordBank[x];
-	  	      			if(words.slice(0,text.length)==text)//tests for the array 
-	  	      			{
-	  	      				newArraywordBank[index]=wordBank[x];
-	  	      				newArraywordBankPriority[index]=wordBankPriority[x];
-	  	      				index++; 
-	  	      			}
+	  	      		let words=wordBank[x];
+	  	      		if(words.slice(0,text.length)==text)//tests for the array 
+	  	      		{
+	  	      			newArraywordBank[index]=wordBank[x];
+	  	      			newArraywordBankPriority[index]=wordBankPriority[x];
+	  	      			index++; 
+	  	      		}
 	  	      	}
+	  	      	
 	  	      	arraywordBank = newArraywordBank.slice(); // these were from the now defunct search array functiuon now altered to still be functional
 	  	      	arraywordBankPriority = newArraywordBankPriority;
-	  	    //  }
-			
-			//priority finding
-			console.log(arraywordBank);
-			if (arraywordBank== null)
-				failure();
-			else
-			{
-				let r = [];
-				let disp1ind=[];
-				for(let x =0;x<NUM_GUESSES;x++)// alg array searching 
-				{
-					let max=-1;
-					for(index=0;index< arraywordBank.length;index++)
-					{
-						if(arraywordBankPriority[index]>max)
-						{
-							max=arraywordBankPriority[index];   
-							disp1ind[x]=index;	
-						}
-					}
-					r[x]=arraywordBank[disp1ind[x]];
-					arraywordBank.splice(disp1ind[x],1);
-					arraywordBankPriority.splice(disp1ind[x],1);
-				}
-				success(r);
-			}
-			
-		}
+	  	      	
+	  	      	if (arraywordBank== null)
+	  	      		failure();
+	  	      	else//priority finding and sorting
+	  	      	{
+	  	      		let r = [];
+	  	      		let disp1ind=[];
+	  	      		for(let x =0;x<NUM_GUESSES;x++)// alg array searching 
+	  	      		{
+	  	      			let max=-1;
+	  	      			for(index=0;index< arraywordBank.length;index++)
+	  	      			{
+	  	      				if(arraywordBankPriority[index]>max)
+	  	      				{
+	  	      					max=arraywordBankPriority[index];   
+	  	      					disp1ind[x]=index;	
+	  	      				}
+	  	      			}
+	  	      			r[x]=arraywordBank[disp1ind[x]];
+	  	      			arraywordBank.splice(disp1ind[x],1);
+	  	      			arraywordBankPriority.splice(disp1ind[x],1);
+	  	      		}
+	  	      		success(r);
+	  	      	}
+	  		}	
 	  		
-	  	}	
-	  	console.log(this.props.language);
-	  if(switcher)
-      {
-      let text = this.props.buffer.getText().split(" ").slice(-1)[0].slice(0, -1);
-
-      if (text === "") {
-            this.setState({guesses: []});
-      } else {
-      	   WordSearch(text,(data,status)=>{
-      	 let guesses=data;
-      	  this.setState({guesses: guesses}),()=> console.log(status)},() => console.log("cannot find words."));
-      }
-      			   
-      }else
-    	  {
-    	  if(merge)
-    		  {
-    		  let text = this.props.buffer.getText().split(" ").slice(-1)[0].slice(0, -1);
-    		  let defaltwordBank;
-				switch(text){
-				case "english":
-				{
-				defaltwordBank=langEN;// theese are dictionarys at the top of the file 
-				break;
-				}case "spanish":
-				{
-					defaltwordBank=langES;
-					break;	  						
-				}
-				case "portuguese":
-				{
-					defaltwordBank=langPOR;
-					break; 						
-				}
-				}
-			for(let x=0;x<defaltwordBank.length;x++)
-				{
-				
-				wordBank.push(defaltwordBank[x][0]);
-				
-				wordBankPriority.push(parseInt(defaltwordBank[x][1]));
-				}
-    		  }else{
-    	  let amend=[];
-    	  amend =  this.amendwordBank(wordBank,wordBankPriority);
-    	  if (amend.length>0)
-    		  {
-    		  for(let x=0;x<amend.length;x++)
-    		  {
-    			  wordBankPriority[wordBankPriority.length]=9;
-    			  wordBank[wordBank.length]=(amend[x]);
-    		  }}}
-    	  	let json = JSON.stringify(wordBank);
-			bs.setItem(this.props.language, json);
-			let jso = JSON.stringify(wordBankPriority);
-			bs.setItem(this.props.language+'priority', jso);
-    	  
-    	   }
-      }
       // not so self explanitory but close if ammending is false then it will iterate the algorithums uasage count
 	  // also speach is for the speach inclusion functionel
     
 	  
-	 amendwordBank(wordBank,wordBankPriority)
+	amendwordBank(wordBank,wordBankPriority)
+	{
+		let words = this.props.buffer.getText();
+		let jso,json;
+		let storingwordBank=[],storingPriority=[];
+		let returningArr=[];
+		let index=0;
+		let word=words.split(' ');
+		for(let x=0;x<word.length;x++)
 		{
-    	 console.log(wordBank);
-			let words = this.props.buffer.getText();
-			let jso,json;
-			let storingwordBank=[],storingPriority=[];
-			let returningArr=[];
-			let index=0;
-				let word=words.split(' ');
-				
-				for(let x=0;x<word.length;x++)
+				word[x]=word[x].replace(".","");
+				word[x]=word[x].replace("?","");
+				word[x]=word[x].replace("_","");
+				if(wordBank.includes(word[x]))
 				{
-						word[x]=word[x].replace(".","");
-						word[x]=word[x].replace("?","");
-						word[x]=word[x].replace("_","");
-						
-							if(wordBank.includes(word[x]))
-					{
-						wordBankPriority[wordBank.indexOf(word[x])]++;
-					}
-					else
-					{
-						returningArr[index]=word[x];
-						index++;
-						
-					}
+					wordBankPriority[wordBank.indexOf(word[x])]++;
 				}
-						return returningArr;
-			}
+				else
+				{
+					returningArr[index]=word[x];
+					index++;
+				}
+		}
+			return returningArr;
+	}
+}
 	//END GUESS GENERATION
 
 	//REACT STUFF
