@@ -146,7 +146,7 @@ class CommBoard extends React.Component {
 	selectButton(i) {
 		if(this.buttons[i]) {
 			this.buttons[i].func();
-			this.generateGuesses(true,"",false);
+			this.generateGuesses(true,false,false);
 		}
 		this.clearHighlight();
 	}
@@ -264,17 +264,56 @@ class CommBoard extends React.Component {
 	    	 	}
 	    	  	else
 	    		{
-	    			let amend=[];
-	    			amend =  this.amendwordBank(wordBank,wordBankPriority);
-	    			if (amend.length>0)
-	    			{
-	    				for(let x=0;x<amend.length;x++)
-	    				{
-	    					wordBankPriority[wordBankPriority.length]=9;
-	    					wordBank[wordBank.length]=(amend[x]);
-	    				}
-	    			}
-	    		}
+	    	  		if(amend)
+	    	  		{
+	    	  			let amend=[];
+	    	  			amend =  this.amendwordBank(wordBank,wordBankPriority);
+	    	  			if (amend.length>0)
+	    	  			{
+	    	  				for(let x=0;x<amend.length;x++)
+	    	  				{
+	    	  					wordBankPriority[wordBankPriority.length]=9;
+	    	  					wordBank[wordBank.length]=(amend[x]);
+	    	  				}
+	    	  			}
+	    	  		}
+	    	  		else
+	    	  		{
+	    	  			let text = this.props.buffer.getText().split(" ").slice(-1)[0].slice(0, -1);
+		    			let defaltwordBank;
+						switch(text)
+						{
+							case "english":
+							{
+								defaltwordBank=langEN;// theese are dictionarys at the top of the file 
+								break;
+							}
+							case "spanish":
+							{
+								defaltwordBank=langES;
+								break;	  						
+							}
+							case "portuguese":
+							{
+								defaltwordBank=langPOR;
+								break; 						
+							}
+						}
+						for(let y=0;y<defaltwordBank.length;x++)
+						{
+							for(let x=0;x<wordbank.length;x++)
+							{
+								if(wordbank[x]==defaltwordBank[y][0])
+								{
+									wordBank.splice(x,1);
+									wordBankPriority.splice(x,1);
+								}
+							}
+						}
+	    	  			
+	    	  			
+	    	  		}
+	    	  	}
 	    	  	let json = JSON.stringify(wordBank);
 	    		bs.setItem(this.props.language, json);
 	    		let jso = JSON.stringify(wordBankPriority);
@@ -388,7 +427,7 @@ class CommBoard extends React.Component {
 	}
 	//RC- render a React text button
 	renderTextButton(pos, display, value) {//value is what is passed to the buffer
-		let func = () => {this.props.buffer.write(value, "letter"); this.generateGuesses(true,"",false);};
+		let func = () => {this.props.buffer.write(value, "letter"); this.generateGuesses(true,false,false);};
 		return (<Button 
 			key={pos}
 			value={display} 
@@ -425,7 +464,7 @@ class CommBoard extends React.Component {
 	}
 	//RC
 	renderGuessButton(pos, word) {
-		let func = () => {this.props.buffer.write(word, "word"); this.generateGuesses(true,"",false);};
+		let func = () => {this.props.buffer.write(word, "word"); this.generateGuesses(true,false,false);};
 		return (<Button 
 			key={pos}
 			value={word} 
@@ -448,13 +487,13 @@ class CommBoard extends React.Component {
 			return (
 				<tr style={[this.state.rowHL == i && styles.highlightedRow]}>
 				<td>{this.renderTextButton(rowOffset++, i.toString(), "")}</td>
-					<td>{this.renderFunctionButton(rowOffset++, "Speak", () => {this.props.buffer.executeAction("read", () => 1);this.generateGuesses(false,'',false);this.props.stop();})}</td>
+					<td>{this.renderFunctionButton(rowOffset++, "Speak", () => {this.props.buffer.executeAction("read", () => 1);this.generateGuesses(false,true,false);this.props.stop();})}</td>
 					
 					<td>{this.renderFunctionButton(rowOffset++, "Phrases", () => this.props.phrMode())}</td>
 					<td>{this.renderTextButton(rowOffset++, "Space", " ")}</td>
 					<td>{this.renderFunctionButton(rowOffset++, "Delete", () => this.props.buffer.executeAction("delete", () => 1))}</td>
 					<td>{this.renderFunctionButton(rowOffset++, "Clear", () => this.props.buffer.executeAction("clear", () => 1))}</td>
-					<td>{this.renderFunctionButton(rowOffset++, "Multilanguage", ()=>this.generateGuesses(false,'',true))}</td>
+					<td>{this.renderFunctionButton(rowOffset++, "Multilanguage", ()=>this.generateGuesses(false,true,true))}</td>
 				</tr>
 				);
 		}
