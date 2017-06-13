@@ -237,7 +237,7 @@ class CommBoard extends React.Component {
 		}
 		if(props.buffer) {
 			Object.assign(this.functions, {
-				read: () => {props.buffer.executeAction("read", () => 1);this.generateGuesses(false,'',false);this.props.stop();},
+				read: () => {props.buffer.executeAction("read", () => 1); this.props.stop();},
 				delete: () => props.buffer.executeAction("delete", () => 1),
 				clear: () => props.buffer.executeAction("clear", () => 1)});
 		}

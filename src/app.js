@@ -76,12 +76,13 @@ class App extends React.Component {
 			}
 			this.longGaze();
 
-		} else if(length > this.state.settings.gazeSpeed * 1000 - fudge && this.scan != null) {
-			window.clearInterval(this.scan);
-			window.clearTimeout(this.scan);
-			this.scan = null;
+		} else if(length > this.state.settings.gazeSpeed * 1000 - fudge) {
+			if(this.scan != null) {
+				window.clearInterval(this.scan);
+				window.clearTimeout(this.scan);
+				this.scan = window.setTimeout(() => {this.scan = null; this.startScan()}, 1000 * this.scanSpeed);
+			}
 			this.gaze();
-			window.setTimeout(() => this.startScan(), 1000 * this.scanSpeed);
 
 		} else {
 			this.resumeScan();
