@@ -21,9 +21,6 @@ class App extends React.Component {
 		
 		this.sp = speaker();
 		let set = settings();
-		this.phrases=null
-		this.row = null;
-		this.button = null;
 		this.scan = null;
 		this.stopped = true;
 		this.scanSpeed = set.scanSpeed;
@@ -34,7 +31,7 @@ class App extends React.Component {
 			buf: buffer(this.sp),
 			language:set.language,
 			det: null,
-			mode: "letters",
+			cblayout: CommBoard.layout_en,
 			fontSize: Math.floor((window.innerWidth / 1420) * 100).toString() + "%"
 		}
 
@@ -60,20 +57,6 @@ class App extends React.Component {
 	stopTone() {
 		this.sp.toneStop();
 	}
-	//RC- listen for changes to the settings
-	settingsListener() {
-		if(this.state.lang != this.state.settings.lang) {//maybe change the language
-			this.setState({lang: this.state.settings.lang, language: this.state.settings.language});
-		}
-
-		if(this.scanSpeed != this.state.settings.scanSpeed) {
-			this.scanSpeed = this.state.settings.scanSpeed;
-			if(!this.stopped) {
-				this.stopScan();
-				this.startScan();
-		}
-		}
-	}
 	//RC- listen for gazeBegin events from the detector
 	detectorBeginListener() {
 		this.pauseScan();
@@ -82,15 +65,46 @@ class App extends React.Component {
 	detectorEndListener() {
 		const LONG_GAZE = 1500;
 		const fudge = 10;
-
 		let length = this.state.det.getLastEvent();
+
 		if(length > LONG_GAZE - fudge) {
+			if(this.scan != null) {
+				window.clearInterval(this.scan);
+				window.clearTimeout(this.scan);
+				this.scan = null;
+				this.startScan();
+			}
 			this.longGaze();
-		} else if(length > this.state.settings.gazeSpeed * 1000 - fudge) {
+
+		} else if(length > this.state.settings.gazeSpeed * 1000 - fudge && this.scan != null) {
+			window.clearInterval(this.scan);
+			window.clearTimeout(this.scan);
+			this.scan = null;
 			this.gaze();
+			window.setTimeout(() => this.startScan(), 1000 * this.scanSpeed);
+
+		} else {
+			this.resumeScan();
+		}
+	}
+	//RC- listen for changes to the settings
+	settingsListener() {
+		if(this.state.lang != this.state.settings.lang) {//maybe change the language
+			if(this.state.settings.language == "english") {
+				this.setState({cblayout: CommBoard.layout_en});
+			} else {
+				this.setState({cblayout: CommBoard.layout_es});
+			}
+			this.setState({lang: this.state.settings.lang, language: this.state.settings.language});
 		}
 
-		this.resumeScan();
+		if(this.scanSpeed != this.state.settings.scanSpeed) {
+			this.scanSpeed = this.state.settings.scanSpeed;
+			if(!this.stopped) {
+				this.stopScan();
+				this.startScan();
+			}
+		}
 	}
 	//RC- listen for the set button and start the calibration procedure
 	set() {
@@ -120,74 +134,74 @@ class App extends React.Component {
 	//END LISTENERS
 
 	//SCANNING FUNCTIONS
+
 	//RC- start scanning or back out.
 	longGaze() {
-		if(this.row != null) {
-			if(this.button != null) {
-				this.button = null;
-				this.commBoard.clearHighlight();
-			} else {
-				this.stopScan();
-			}
-		} else {
+		if(this.commBoard.getState() == "stopped") {
+			this.sp.beep(350, 500);
 			this.startScan();
 		}
-	}
-	//RC- do a selection on a row or button.
-	gaze() {
-		if(this.row != null) {
-			if(this.button != null) {
-				this.commBoard.selectButton(this.button);
-				if(this.state.mode == "letters") {
-					this.row = this.button = null;
-				}
-			} else {
-				this.button = this.row * this.commBoard.columns;
-			}
+		else {
+			this.commBoard.backOut();
 		}
 	}
+
+	//RC- do a selection on a row or button.
+	gaze() {
+		let button = this.commBoard.select();
+		this.sp.toneStop();
+		this.sp.speakAsync(button.value, () => 1);
+	}
+
 	//RC- move to the next row or the next button in the scan.
 	proceed() {
 		this.intervalStart = new Date();
-
-		switch(this.state.mode) {
+		let button = this.commBoard.proceed();
+		this.sp.speakAsync(button.value, () => 1);
+	}
+	//RC
+	switchMode(mode) {
+		switch(mode) {
 			case "letters":
-				if(this.row != null) {
-					if(this.button != null) {//scan through buttons.
-						this.button += 1;
-						if(Math.floor(this.button / this.commBoard.columns) != this.row) {
-							this.button -= this.commBoard.columns - 1;
-						}
-						let b = this.commBoard.highlightButton(this.button);
-						this.sp.speakAsync(b.value.toString());
-
-					} else {//scan through rows.
-						this.row = (this.row + 1) % this.commBoard.rows;
-						let b = this.commBoard.highlightRow(this.row);
-						this.sp.speakAsync(b.value.toString());
-					}
-				} else {//start a fresh scan.
-					this.row = 0;
-					let b = this.commBoard.highlightRow(this.row);
-					this.sp.speakAsync(b.value.toString());
-				}
+				this.setState({cblayout: CommBoard.layout_en});
 				break;
 			case "phrases":
-				if(this.button != null) {
-					console.log(this.phrases+ this.button);
-					this.button += 1;
-					if(Math.floor(this.button / (this.phrases.length + 1)) != 0) {
-						this.button -= (this.phrases.length + 1);
-					}
-					this.commBoard.highlightButton(this.button);
-					this.sp.beep(350, 15);
-				} else {
-					this.row = 0;
-					this.button = 0;
-					this.commBoard.highlightButton(this.button);
-					this.sp.beep(350, 15)
-				}
+				this.setState({cblayout: CommBoard.layout_phrases});
 				break;
+			default:
+				throw new Error("invalid mode: " + mode);
+		}
+	}
+	//RC
+	startScan() {
+		if(this.scan == null) {
+			this.commBoard.startScan();
+			this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
+		}
+	}
+	//RC
+	stopScan() {
+		this.sp.beep(350, 500);
+		window.clearInterval(this.scan);
+		window.clearTimeout(this.scan);
+		this.scan = null;
+		this.commBoard.stopScan();
+	}
+	//RC
+	pauseScan() {
+		if(this.scan != null) {
+			window.clearInterval(this.scan);
+			window.clearTimeout(this.scan);
+			this.scan = "paused";
+		}
+	}
+	//RC
+	resumeScan() {
+		if(this.scan == "paused") {
+			this.scan = window.setTimeout(() => {
+					this.proceed(); 
+					this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
+				}, Math.max(1000 * this.scanSpeed - (new Date() - this.intervalStart), 0));
 		}
 	}
 	//RC- capture a set of reference images
@@ -211,51 +225,6 @@ class App extends React.Component {
 			this.sp.speakAsync(this.state.lang.noCamera, () => 1);
 		}
 	}
-	//RC
-	switchMode(mode) {
-		switch(mode) {
-			case "letters":
-				this.setState({mode: "letters"});
-				this.row = this.button = null;
-				break;
-			case "phrases":
-				this.setState({mode: "phrases"});
-				this.row = this.button = null;
-				this.phrases = this.commBoard.phrases;
-				break;
-			default:
-				throw new Error("invalid mode: " + mode);
-		}
-	}
-	//RC
-	startScan() {
-		this.proceed();
-		if(!this.scan) {
-			this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
-		}
-	}
-	//RC
-	stopScan() {
-		window.clearInterval(this.scan);
-		this.scan = null;
-		this.commBoard.clearHighlight();
-		this.row = this.button = null;
-	}
-	//RC
-	pauseScan() {
-		window.clearInterval(this.scan);
-		window.clearTimeout(this.scan);
-		this.scan = "paused";
-	}
-	//RC
-	resumeScan() {
-		if(this.scan == "paused") {
-			this.scan = window.setTimeout(() => {
-					this.proceed(); 
-					this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
-				}, Math.max(1000 * this.scanSpeed - (new Date() - this.intervalStart), 0));
-		}
-	}
 	//END SCANNING FUNCTIONS
 
 	//REACT STUFF
@@ -274,7 +243,7 @@ class App extends React.Component {
 					<Message buffer={this.state.buf} />
 				</div>
 				<div style={{position: "absolute", bottom: "0px", width: "87em"}}>
-					<CommBoard ref={(i) => this.commBoard = i} buffer={this.state.buf} language={this.state.language}  stop={() => this.stopScan()} letMode={() => this.switchMode("letters")} phrMode={() =>this.switchMode("phrases")} mode={this.state.mode}/>
+					<CommBoard.CommBoard ref={(i) => this.commBoard = i} buffer={this.state.buf} language={this.state.language}  stop={() => this.stopScan()} lettermode={() => this.switchMode("letters")} phrasemode={() =>this.switchMode("phrases")} layout={this.state.cblayout}/>
 					<div style={{position: "absolute", bottom: "0px", right: "0px", width: "6em"}}>
 						<input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="set" value={this.state.lang.set} onClick={() => this.set()} />
 						<input type="button" style={{width: "6em", height: "3em", fontWeight: "bold"}} name="start" value={this.state.lang.start} onClick={() => this.start()} />

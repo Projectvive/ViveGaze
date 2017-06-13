@@ -30,7 +30,7 @@ const langPOR=[
 	  ["sol",2],["desse",2],["viva",2],["lutar",2],["aonde",2],["tipos",2],["dizes",2],["saia",2],["estúpido",2],["meia",2],["assunto",2],["deixem",2],["melhores",2],["escritório",2],["serviço",2],["facto",2],["dor",2],["casar",2],["david",2],["dito",2],["exército",2],["fundo",2],["fugir",2],["acidente",2],["faças",2],["segundos",2],["nesse",2],["vale",2],["fixe",2],["george",2],["sonho",2],["nele",2],["quantos",2],["escuta",2],["ambos",2],["graças",2],["papá",2],["preso",2],["tinham",2],["professor",2],["trazer",2],["ajudá",2],["dei",2],["pensas",2],["fiquei",2],["sete",2],["esperem",2],["roupa",2],["hotel",2],["verdadeiro",2],["devíamos",2],["fantástico",2],["creio",2],["espaço",2],["idade",2],["bons",2],["tocar",2],["olho",2],["companhia",2],["saiu",2],["conseguiu",2],["jeito",2],["pensava",2],["escolha",2],["levou",2],["iria",2],["mente",2],["estivesse",2],["caixa",2],["ouça",2],["sozinha",2],["tiro",2],["programa",2],["esquerda",2],["breve",2],["parabéns",2],["voz",2],["chave",2],["gostar",2],["engraçado",2],["diabo",2],["costas",2],["informação",2],["olhem",2],["pegar",2],["erro",2],["falou",2],["namorada",2],["fome",2],["cabo",2],["abre",2],["volto",2],["incrível",2],["banco",2],["fazia",2],["estrada",2],["após",2],["posição",2],["excelente",2],["juro",2],
 	  ["má",1],["parem",1],["morta",1],["loja",1],["coronel",1],["prometo",1],["povo",1],["presente",1],["tempos",1],["fomos",1],["carta",1],["mestre",1],["proteger",1],["explicar",1],["leve",1],["trata",1],["simplesmente",1],["ora",1],["the",1],["governo",1],["mata",1],["cair",1],["centro",1],["prova",1],["senhoras",1],["chamado",1],["céu",1],["mês",1],["aposto",1],["energia",1],["soube",1],["mamã",1],["norte",1],["destino",1],["quente",1],["tradução",1],["feira",1],["conversar",1],["ordens",1],["lembrar",1],["almoço",1],["metade",1],["direita",1],["mandar",1],["papel",1],["miúdos",1],["liga",1],["chamo",1],["pediu",1],["perdi",1],["indo",1],["ouviste",1],["diabos",1],["foda",1],["advogado",1],["tornar",1],["base",1],["conseguimos",1],["imediatamente",1],["lei",1],["através",1],["interessante",1],["planeta",1],["bolas",1],["cheio",1],["voltou",1],["esquece",1],["saiam",1],["james",1],["impossível",1],["tenente",1],["escrever",1],["funciona",1],["bela",1],["entendido",1],["pés",1],["reunião",1],["luta",1],["saída",1],["cena",1],["inferno",1],["percebo",1],["oito",1],["máquina",1],["comandante",1],["câmara",1],["falei",1],["segredo",1],["regras",1],["acerca",1],["odeio",1],["fizemos",1],["bomba",1],["precisam",1],["sargento",1],["passo",1],["trabalha",1],["honra",1],["vidas",1],["digas",1]
 	 ]
-const langES=[//spanish
+const langES =[//spanish
 	  ["de",10],["que",10],["no",10],["a",10],["la",10],["el",10],["y",10],["es",10],["en",10],["lo",10],["un",10],["por",10],["qué",10],["me",10],["una",10],["te",10],["se",10],["los",10],["con",10],["para",10],["mi",10],["está",10],["si",10],["sí",10],["pero",10],["las",10],["bien",10],["yo",10],["su",10],["eso",10],["aquí",10],["del",10],["al",10],["como",10],["le",10],["tu",10],["más",10],["todo",10],["ya",10],["muy",10],["esto",10],["vamos",10],["ha",10],["ahora",10],["esta",10],["hay",10],["estoy",10],["algo",10],["tú",10],["tengo",10],["así",10],["nada",10],["nos",10],["cuando",10],["cómo",10],["él",10],["sé",10],["estás",10],["sólo",10],["o",10],["quiero",10],["este",10],["tiene",10],["gracias",10],["he",10],["puedo",10],["bueno",10],["soy",10],["era",10],["ser",10],["vez",10],["hacer",10],["todos",10],["ella",10],["son",10],["fue",10],["eres",10],["usted",10],["tienes",10],["puede",10],["señor",10],["ese",10],["voy",10],["quién",10],["casa",10],["creo",10],["porque",10],["tan",10],["favor",10],["hola",10],["dónde",10],["nunca",10],["sus",10],["sabes",10],["dos",10],["verdad",10],["quieres",10],["mucho",10],["entonces",10],["estaba",10],
 	  ["tiempo",9],["mí",9],["esa",9],["mejor",9],["hombre",9],["hace",9],["va",9],["dios",9],["también",9],["has",9],["vida",9],["sin",9],["están",9],["ver",9],["sr",9],["siempre",9],["oh",9],["hasta",9],["ti",9],["ahí",9],["siento",9],["puedes",9],["decir",9],["ni",9],["sobre",9],["años",9],["tenemos",9],["uno",9],["día",9],["noche",9],["cosas",9],["alguien",9],["antes",9],["mis",9],["ir",9],["poco",9],["otra",9],["quiere",9],["solo",9],["nadie",9],["nosotros",9],["padre",9],["gente",9],["parece",9],["dinero",9],["estar",9],["hecho",9],["les",9],["mismo",9],["sea",9],["estamos",9],["mira",9],["pasa",9],["trabajo",9],["dijo",9],["ellos",9],["vas",9],["claro",9],["mañana",9],["han",9],["otro",9],["después",9],["desde",9],["mundo",9],["hablar",9],["tal",9],["había",9],["sabe",9],["acuerdo",9],["momento",9],["donde",9],["fuera",9],["hijo",9],["podría",9],["seguro",9],["mujer",9],["amigo",9],["días",9],["madre",9],["allí",9],["cosa",9],["tus",9],["lugar",9],["dice",9],["gusta",9],["será",9],["gran",9],["mierda",9],["tenía",9],["mamá",9],["papá",9],["espera",9],["hoy",9],["tener",9],["ven",9],["buena",9],["estado",9],["nuevo",9],["luego",9],["podemos",9],
 	  ["tres",8],["dije",8],["nuestro",8],["sido",8],["menos",8],["debe",8],["tipo",8],["buen",8],["conmigo",8],["mal",8],["todas",8],["nombre",8],["haciendo",8],["crees",8],["toda",8],["amor",8],["mío",8],["visto",8],["estas",8],["quería",8],["eh",8],["tarde",8],["importa",8],["parte",8],["aún",8],["nuestra",8],["tienen",8],["tanto",8],["cada",8],["hora",8],["veces",8],["necesito",8],["contigo",8],["ve",8],["haber",8],["buenas",8],["dicho",8],["quien",8],["hacerlo",8],["demasiado",8],["oye",8],["ah",8],["haces",8],["hombres",8],["saber",8],["entre",8],["adiós",8],["problema",8],["unos",8],["vaya",8],["hemos",8],["cierto",8],["debo",8],["razón",8],["alguna",8],["esos",8],["pues",8],["veo",8],["idea",8],["chica",8],["realmente",8],["policía",8],["hizo",8],["estos",8],["amigos",8],["ustedes",8],["quizá",8],["serio",8],["cabeza",8],["hermano",8],["digo",8],["van",8],["pasado",8],["salir",8],["cuenta",8],["familia",8],["cariño",8],["vale",8],["algún",8],["muchas",8],["señora",8],["somos",8],["pueden",8],["noches",8],["muerto",8],["ud",8],["todavía",8],["rápido",8],["viejo",8],["lado",8],["debería",8],["ves",8],["sabía",8],["suerte",8],["cuidado",8],["buenos",8],["sería",8],["da",8],["mientras",8],["miedo",8],
@@ -44,14 +44,128 @@ const langES=[//spanish
 	  
 	  
 	  ]
-	  const layout_default = [' ', 'a', 'b', 'c', 'd', 'e', 'f', '.',
 
- ' ', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
- ' ' , 'n', 'o', 'p', 'q', 'r', 's', '?',
- ' ', 't', 'u', 'v', 'w', 'x', 'y', 'z',
- ' ', 'é', 'á', 'í', 'ü', 'ó', 'ú', 'ñ',
- ];
- const styles= {
+const layout_en = {title: "letters", rows: 6, columns: 8, 
+	//RC- labelLength is the longest a string of m...m can be inside a button without having to use a smaller font
+	labelLength: 4,
+	layout: [
+		{title: "Guess"},
+		{title: "1", buttons: [
+			{mode: "simple", text: "a"},
+			{mode: "simple", text: "b"},
+			{mode: "simple", text: "c"},
+			{mode: "simple", text: "d"},
+			{mode: "simple", text: "e"},
+			{mode: "simple", text: "f"},
+			{mode: "complex", text: ".", label: ".", read: "period"}]},
+		{title: "2", buttons: [
+			{mode: "simple", text: "g"},
+			{mode: "simple", text: "h"},
+			{mode: "simple", text: "i"},
+			{mode: "simple", text: "j"},
+			{mode: "simple", text: "k"},
+			{mode: "simple", text: "l"},
+			{mode: "simple", text: "m"}]},
+		{title: "3", buttons: [
+			{mode: "simple", text: "n"},
+			{mode: "simple", text: "o"},
+			{mode: "simple", text: "p"},
+			{mode: "simple", text: "q"},
+			{mode: "simple", text: "r"},
+			{mode: "simple", text: "s"},
+			{mode: "complex", text: "?", label: "?", read: "questionmark"}]},
+		{title: "4", buttons: [
+			{mode: "simple", text: "t"},
+			{mode: "simple", text: "u"},
+			{mode: "simple", text: "v"},
+			{mode: "simple", text: "w"},
+			{mode: "simple", text: "x"},
+			{mode: "simple", text: "y"},
+			{mode: "simple", text: "z"}]},
+		{title: "5", buttons: [
+			{mode: "function", label: "Speak", read: "speak", action: "read"},
+			{mode: "complex", text: " ", label: "Space", read: "space"},
+			{mode: "function", label: "Phrases", read: "phrases", action: "phrasemode"},
+			{mode: "function", label: "Delete", read: "delete", action: "delete"},
+			{mode: "function", label: "Clear", read: "clear", action: "clear"},
+			{mode: "function", label: "Stop", read: "stop", action: "stop"}]}]};
+
+const layout_es = {title: "letters", rows: 7, columns: 8, 
+	//RC- labelLength is the longest a string of m...m can be inside a button without having to use a smaller font
+	labelLength: 4,
+	layout: [
+		{title: "Guess"},
+		{title: "1", buttons: [
+			{mode: "simple", text: "a"},
+			{mode: "simple", text: "b"},
+			{mode: "simple", text: "c"},
+			{mode: "simple", text: "d"},
+			{mode: "simple", text: "e"},
+			{mode: "simple", text: "f"},
+			{mode: "complex", text: ".", label: ".", read: "period"}]},
+		{title: "2", buttons: [
+			{mode: "simple", text: "g"},
+			{mode: "simple", text: "h"},
+			{mode: "simple", text: "i"},
+			{mode: "simple", text: "j"},
+			{mode: "simple", text: "k"},
+			{mode: "simple", text: "l"},
+			{mode: "simple", text: "m"}]},
+		{title: "3", buttons: [
+			{mode: "simple", text: "n"},
+			{mode: "simple", text: "o"},
+			{mode: "simple", text: "p"},
+			{mode: "simple", text: "q"},
+			{mode: "simple", text: "r"},
+			{mode: "simple", text: "s"},
+			{mode: "complex", text: "?", label: "?", read: "questionmark"}]},
+		{title: "4", buttons: [
+			{mode: "simple", text: "t"},
+			{mode: "simple", text: "u"},
+			{mode: "simple", text: "v"},
+			{mode: "simple", text: "w"},
+			{mode: "simple", text: "x"},
+			{mode: "simple", text: "y"},
+			{mode: "simple", text: "z"}]},
+		{title: "5", buttons: [
+			{mode: "simple", text: "é"},
+			{mode: "simple", text: "á"},
+			{mode: "simple", text: "í"},
+			{mode: "simple", text: "ü"},
+			{mode: "simple", text: "ó"},
+			{mode: "simple", text: "ú"},
+			{mode: "simple", text: "ñ"}]},
+		{title: "6", buttons: [
+			{mode: "function", label: "Speak", read: "speak", action: "read"},
+			{mode: "complex", text: " ", label: "Space", read: "space"},
+			{mode: "function", label: "Phrases", read: "phrases", action: "phrasemode"},
+			{mode: "function", label: "Delete", read: "delete", action: "delete"},
+			{mode: "function", label: "Clear", read: "clear", action: "clear"},
+			{mode: "function", label: "Stop", read: "stop", action: "stop"}]}]};
+
+const layout_phrases = {title: "phrases", rows: 5, columns: 3, 
+	//RC- labelLength is the longest a string of m...m can be inside a button without having to use a smaller font
+	labelLength: 20, 
+	//RC- don't render the row titles
+	ignoreRowTitles: true,
+	layout: [
+		{title: "1", buttons: [
+			{mode: "simple", text: "I'm uncomfortable"},
+			{mode: "simple", text: "I'm hungry"}]},
+		{title: "2", buttons: [
+			{mode: "simple", text: "I'm thirsty"},
+			{mode: "simple", text: "Medicine"}]},
+		{title: "3", buttons: [
+			{mode: "simple", text: "Toilet"},
+			{mode: "simple", text: "I love You"}]},
+		{title: "4", buttons: [
+			{mode: "simple", text: "Cough Machine"},
+			{mode: "simple", text: "Dry Mouth"},]},
+		{title: "5", buttons: [
+			{mode: "simple", text: "Sucker"},
+			{mode: "function", label: "Finish", read: "finish", action: "lettermode"}]}]};
+
+const styles = {
 	container: {
 		backgroundColor: "#D3D3D3",
 		borderColor: "#657b83",
@@ -87,7 +201,7 @@ const langES=[//spanish
 		color: "#ffffff"
 	}
 };
-const phrases = ["I'm uncomfortable", "I'm hungry", "I'm thirsty", "Medicine", "Toilet", "I love You","Cough Machine","Dry Mouth","Sucker","Spit","Finish"]
+
 class Button extends React.Component {
 	constructor(props) {
 		super(props);
@@ -107,19 +221,31 @@ class Button extends React.Component {
 	}
 }
 Button = Radium(Button);
+
 //Ryan Campbell
 //The main input interface
 class CommBoard extends React.Component {
 	constructor(props) {
 		super(props);
-		this.rows = 7;
-		this.columns = 8;
+		this.rows = 0;
+		this.columns = 0;
 		this.buttons = [];
-		this.phrases = phrases;
-		this.labelLength = 4;
+		if(props.functions) {
+			this.functions = props.functions;
+		} else {
+			this.functions = {};
+		}
+		if(props.buffer) {
+			Object.assign(this.functions, {
+				read: () => {props.buffer.executeAction("read", () => 1);this.generateGuesses(false,'',false);this.props.stop();},
+				delete: () => props.buffer.executeAction("delete", () => 1),
+				clear: () => props.buffer.executeAction("clear", () => 1)});
+		}
+		this.labelLength = props.layout.labelLength;
+		this.scanstate = "stopped";
+		this.scaniterations = 0;
 		this.state = {
 			guesses: [],
-			letters: layout_default,
 			buttonHL: null,
 			rowHL: null
 		};
@@ -127,256 +253,358 @@ class CommBoard extends React.Component {
 	}
 
 	//SCANNING FUNCTIONS
-	//RC
+
+	getState() {
+		return this.scanstate;
+	}
+
+	//RC- start a new scan if there isn't one already running
+	startScan() {
+		if(this.scanstate == "stopped") {
+			this.scanstate = "rows";
+			this.proceed();
+		}
+	}
+
+	//RC- stop the scan that is currently running
+	stopScan() {
+		this.clearHighlight();
+		this.scanstate = "stopped";
+	}
+
+	//RC- stop scanning buttons and scan rows, or back out of phrase mode, or just stop scanning
+	backOut() {
+		this.scaniterations = 0;
+		if(this.scanstate == "buttons") {
+			this.scanstate = "rows";
+			let row = this.state.rowHL;
+			this.clearHighlight();
+			this.highlightRow(row);
+		}
+		else if(this.props.layout.title == "phrases") {
+			this.getFunc("lettermode")();
+		}
+		else {
+			this.getFunc("stop")();
+		}
+	}
+
+	//RC- if a scan is running, proceed to the next step of the scan
+	proceed() {
+		//RC- proceed to the next row
+		if(this.scanstate == "rows") {
+			if(this.state.rowHL == null) {
+				return this.highlightRow(0);
+			} 
+			else {
+				let nextrow = this.state.rowHL + 1;
+
+				//RC- loop back
+				if(nextrow >= this.rows) {
+					nextrow -= this.rows;
+					this.scaniterations++;
+					if(this.scaniterations >= 3) {
+						this.backOut();
+						return;
+					}
+				}
+				return this.highlightRow(nextrow);
+			}
+		} 
+
+		//RC- proceed to the next button
+		else if(this.scanstate == "buttons") {
+			let nextbutton = this.state.buttonHL + 1;
+			//RC- loop back
+			if(nextbutton >= (this.state.rowHL + 1) * this.columns) {
+				nextbutton = this.columns * this.state.rowHL + 1;
+				this.scaniterations++;
+			}
+			//RC- skip blank spaces(blanks must all be at the end of a row)
+			let button = this.highlightButton(nextbutton);
+			if(button == null) {
+				nextbutton = this.columns * this.state.rowHL + 1;
+				button = this.highlightButton(nextbutton);
+				this.scaniterations++;
+			}
+			if(this.scaniterations >= 3) {
+				this.backOut();
+			}
+
+			return button;
+		}
+	}
+
+	//RC- highlight a given row (0 based index)
 	highlightRow(i) {
 		this.setState({rowHL: i,
 			buttonHL: i * this.columns});
 		return this.buttons[i * this.columns];
 	}
-	//RC
+
+	//RC- highlight the button at position i
 	highlightButton(i) {
 		this.setState({buttonHL: i});
 		return this.buttons[i];
 	}
+
 	//RC
 	clearHighlight() {
 		this.setState({buttonHL: null, rowHL: null});
 	}
-	//RC
-	selectButton(i) {
-		if(this.buttons[i]) {
-			this.buttons[i].func();
-			this.generateGuesses(true,"",false);
+
+	//RC- perform the click action of the currently selected button or select a row
+	select() {
+		//RC- select a row and start scanning buttons
+		if(this.scanstate == "rows") {
+			this.scanstate = "buttons";
+			this.scaniterations = 0;
+			return this.highlightButton(this.state.buttonHL + 1);
+		} 
+		//RC- select a button
+		else if(this.scanstate == "buttons") {
+			let button = this.buttons[this.state.buttonHL]
+			if(button) {
+				button.func();
+				this.generateGuesses(true,"",false);
+			}
+			this.clearHighlight();
+			this.scanstate = "rows";
+			return button;
 		}
-		this.clearHighlight();
 	}
 	//END SCANNING FUNCTIONS
 
 	//GUESS GENERATION
 	generateGuesses(switcher,amend,merge) 
 	{
- 	  	 const NUM_GUESSES = this.columns;
-	  	 var wordBank=[];//paired with wordBankPriority as wordBank has words and Priority has word priority 
-	  	 var wordBankPriority=[];//priority
-		 /*
-*Function ( or Main) Name:WordSearch                            
-*Author:ZachFokin		                         
-*Date:4/20/17	    	
-*Purpose:Given text input generates  guesses from the local prioritized dictionary 
-*			after having filled fills wordBank and wordBankPriority upon first guess after initialization      
-*Updates: (date)   Purpose: 
-*Inputs:Text from user input,algorithm/local languages dictionary                        
-*Outputs: guesses to be pressented on the guess row	or failure 	         
-*/
+ 	  	const NUM_GUESSES = this.columns;
+	  	var wordBank=[];//paired with wordBankPriority as wordBank has words and Priority has word priority 
+	  	var wordBankPriority=[];//priority
+		/*
+		*Function ( or Main) Name:WordSearch                            
+		*Author:ZachFokin		                         
+		*Date:4/20/17	    	
+		*Purpose:Given text input generates  guesses from the local prioritized dictionary 
+		*			after having filled fills wordBank and wordBankPriority upon first guess after initialization      
+		*Updates: (date)   Purpose: 
+		*Inputs:Text from user input,algorithm/local languages dictionary                        
+		*Outputs: guesses to be pressented on the guess row	or failure 	         
+		*/
 
-//Include block comments as follows:
-/*  
-*     -all words have assosiated priority
-*/
-	  	
-	  	 		
-	  		let data=bs.getItem(this.props.language);//import the language for algorithum
-	  		let dataSplit=JSON.parse(data); // parse it
-	  		data=bs.getItem(this.props.language+'priority');// import the second array of 
-	  		let immportance= JSON.parse(data); // parse prior
-	  		var priotity =(immportance);//make int
-	  		if(dataSplit!=null)// if there was a prior save
-	  		{
-	  				wordBank=dataSplit;//set alg string Array
-	  				wordBankPriority=priotity; // set word priority
-	  		}
-	  		else
-	  		{ 
-	  			let defaltwordBank;
-	  			switch(this.props.language)
-	  			{
-	  				case "english":
-	  				{
-	  					defaltwordBank=langEN;// theese are dictionarys at the top of the file 
-	  					break;
-	  				}
-	  				case "spanish":
-	  				{
-	  					defaltwordBank=langES;
-	  					break;	  						
-	  				}
-	  				case "portuguese":
-	  				{
-	  					defaltwordBank=langPOR;
-	  					break; 						
-	  				}
-	  			}
-	  			for(let x=0;x<defaltwordBank.length;x++)
-	  			{
-	  				wordBank[x]=defaltwordBank[x][0];
-	  				wordBankPriority[x]=parseInt(defaltwordBank[x][1]);
-	  			}
-	  		}
-	  		
-	  		
-	  		
-	  		
-	  		
-	  		// this is here to tell what functions are running in what order, if at all.
-	  		if(switcher)
-		  	{
-			  	let text = this.props.buffer.getText().split(" ").slice(-1)[0].slice(0, -1);
-	      		if (text === "")
-	      		{
-	    	  		this.setState({guesses: []});
-	      		} 	
-	      		else 
-	      		{
-	      	   		WordSearch(text,(data,status)=>{
-	      	   			let guesses=data;
-	      	   			this.setState({guesses: guesses}),()=> console.log(status)},() => console.log("cannot find words."));
-	      		}	   
-	      	}
-		  	else
-		  	{
-			  	if(merge)
-	    	  	{
-	    		  	let text = this.props.buffer.getText().split(" ").slice(-1)[0].slice(0, -1);
-	    			let defaltwordBank;
-					switch(text)
+		//Include block comments as follows:
+		/*  
+		*     -all words have assosiated priority
+		*/
+  	
+  	 		
+  		let data=bs.getItem(this.props.language);//import the language for algorithum
+  		let dataSplit=JSON.parse(data); // parse it
+  		data=bs.getItem(this.props.language+'priority');// import the second array of 
+  		let immportance= JSON.parse(data); // parse prior
+  		var priotity =(immportance);//make int
+  		if(dataSplit!=null)// if there was a prior save
+  		{
+  				wordBank=dataSplit;//set alg string Array
+  				wordBankPriority=priotity; // set word priority
+  		}
+  		else
+  		{ 
+  			let defaltwordBank;
+  			switch(this.props.language)
+  			{
+  				case "english":
+  				{
+  					defaltwordBank=langEN;// theese are dictionarys at the top of the file 
+  					break;
+  				}
+  				case "spanish":
+  				{
+  					defaltwordBank=langES;
+  					break;	  						
+  				}
+  				case "portuguese":
+  				{
+  					defaltwordBank=langPOR;
+  					break; 						
+  				}
+  			}
+  			for(let x=0;x<defaltwordBank.length;x++)
+  			{
+  				wordBank[x]=defaltwordBank[x][0];
+  				wordBankPriority[x]=parseInt(defaltwordBank[x][1]);
+  			}
+  		}
+  		
+  		
+  		
+  		
+  		
+  		// this is here to tell what functions are running in what order, if at all.
+  		if(switcher)
+	  	{
+		  	let text = this.props.buffer.getText().split(" ").slice(-1)[0].slice(0, -1);
+      		if (text === "")
+      		{
+    	  		this.setState({guesses: []});
+      		} 	
+      		else 
+      		{
+      	   		WordSearch(text,(data,status)=>{
+      	   			let guesses=data;
+      	   			this.setState({guesses: guesses}),()=> console.log(status)},() => console.log("cannot find words."));
+      		}	   
+      	}
+	  	else
+	  	{
+		  	if(merge)
+    	  	{
+    		  	let text = this.props.buffer.getText().split(" ").slice(-1)[0].slice(0, -1);
+    			let defaltwordBank;
+				switch(text)
+				{
+					case "english":
 					{
-						case "english":
-						{
-							defaltwordBank=langEN;// theese are dictionarys at the top of the file 
-							break;
-						}
-						case "spanish":
-						{
-							defaltwordBank=langES;
-							break;	  						
-						}
-						case "portuguese":
-						{
-							defaltwordBank=langPOR;
-							break; 						
-						}
+						defaltwordBank=langEN;// theese are dictionarys at the top of the file 
+						break;
 					}
-					for(let x=0;x<defaltwordBank.length;x++)
+					case "spanish":
 					{
-						wordBank.push(defaltwordBank[x][0]);
-						wordBankPriority.push(parseInt(defaltwordBank[x][1]));
+						defaltwordBank=langES;
+						break;	  						
 					}
-	    	 	}
-	    	  	else
-	    		{
-	    			let amend=[];
-	    			amend =  this.amendwordBank(wordBank,wordBankPriority);
-	    			if (amend.length>0)
-	    			{
-	    				for(let x=0;x<amend.length;x++)
-	    				{
-	    					wordBankPriority[wordBankPriority.length]=9;
-	    					wordBank[wordBank.length]=(amend[x]);
-	    				}
-	    			}
-	    		}
-	    	  	let json = JSON.stringify(wordBank);
-	    		bs.setItem(this.props.language, json);
-	    		let jso = JSON.stringify(wordBankPriority);
-				bs.setItem(this.props.language+'priority', jso);
-	     	}
-	  		
-	  		//alt-Zach searches array to return words that have matching beginnings
-	  		/*search array, this section is a search function 
-			* to return arrays of filtered results to words that have the same begining as the text input  
-			* mary:searches through local dictionary to find words with the same beginings as the text input
-			* joe:search local wordBank dictionary to return words whose begining letters match the text typed so far
-	  		*/
-	  		function WordSearch(text, success, failure) 
-	  		{
-	  			let arraywordBank=[];
-	  			let arraywordBankPriority=[];
-	  			let index=0; 
-	  	      	let newArraywordBank=[];
-	  	      	let newArraywordBankPriority=[];
-	  	      	for(let x=0;x<wordBank.length;x++)// itterate through array
-	  	      	{  
-	  	      		let words=wordBank[x];
-	  	      		if(words.slice(0,text.length)==text)//tests for the array 
-	  	      		{
-	  	      			newArraywordBank[index]=wordBank[x];
-	  	      			newArraywordBankPriority[index]=wordBankPriority[x];
-	  	      			index++; 
-	  	      		}
-	  	      	}
-	  	      	
-	  	      	arraywordBank = newArraywordBank.slice(); // these were from the now defunct search array functiuon now altered to still be functional
-	  	      	arraywordBankPriority = newArraywordBankPriority;
-	  	      	
-	  	      	if (arraywordBank== null)
-	  	      		failure();
-	  	      	else//priority finding and sorting
-	  	      	{
-	  	      		let r = [];
-	  	      		let disp1ind=[];
-	  	      		for(let x =0;x<NUM_GUESSES;x++)// alg array searching 
-	  	      		{
-	  	      			let max=-1;
-	  	      			for(index=0;index< arraywordBank.length;index++)
-	  	      			{
-	  	      				if(arraywordBankPriority[index]>max)
-	  	      				{
-	  	      					max=arraywordBankPriority[index];   
-	  	      					disp1ind[x]=index;	
-	  	      				}
-	  	      			}
-	  	      			r[x]=arraywordBank[disp1ind[x]];
-	  	      			arraywordBank.splice(disp1ind[x],1);
-	  	      			arraywordBankPriority.splice(disp1ind[x],1);
-	  	      		}
-	  	      		success(r);
-	  	      	}
-	  		}	
+					case "portuguese":
+					{
+						defaltwordBank=langPOR;
+						break; 						
+					}
+				}
+				for(let x=0;x<defaltwordBank.length;x++)
+				{
+					wordBank.push(defaltwordBank[x][0]);
+					wordBankPriority.push(parseInt(defaltwordBank[x][1]));
+				}
+    	 	}
+    	  	else
+    		{
+    			let amend=[];
+    			amend =  this.amendwordBank(wordBank,wordBankPriority);
+    			if (amend.length>0)
+    			{
+    				for(let x=0;x<amend.length;x++)
+    				{
+    					wordBankPriority[wordBankPriority.length]=9;
+    					wordBank[wordBank.length]=(amend[x]);
+    				}
+    			}
+    		}
+    	  	let json = JSON.stringify(wordBank);
+    		bs.setItem(this.props.language, json);
+    		let jso = JSON.stringify(wordBankPriority);
+			bs.setItem(this.props.language+'priority', jso);
+     	}
+  		
+  		//alt-Zach searches array to return words that have matching beginnings
+  		/*search array, this section is a search function 
+		* to return arrays of filtered results to words that have the same begining as the text input  
+		* mary:searches through local dictionary to find words with the same beginings as the text input
+		* joe:search local wordBank dictionary to return words whose begining letters match the text typed so far
+  		*/
+  		function WordSearch(text, success, failure) 
+  		{
+  			let arraywordBank=[];
+  			let arraywordBankPriority=[];
+  			let index=0; 
+  	      	let newArraywordBank=[];
+  	      	let newArraywordBankPriority=[];
+  	      	for(let x=0;x<wordBank.length;x++)// itterate through array
+  	      	{  
+  	      		let words=wordBank[x];
+  	      		if(words.slice(0,text.length)==text)//tests for the array 
+  	      		{
+  	      			newArraywordBank[index]=wordBank[x];
+  	      			newArraywordBankPriority[index]=wordBankPriority[x];
+  	      			index++; 
+  	      		}
+  	      	}
+  	      	
+  	      	arraywordBank = newArraywordBank.slice(); // these were from the now defunct search array functiuon now altered to still be functional
+  	      	arraywordBankPriority = newArraywordBankPriority;
+  	      	
+  	      	if (arraywordBank== null)
+  	      		failure();
+  	      	else//priority finding and sorting
+  	      	{
+  	      		let r = [];
+  	      		let disp1ind=[];
+  	      		for(let x =0;x<NUM_GUESSES;x++)// alg array searching 
+  	      		{
+  	      			let max=-1;
+  	      			for(index=0;index< arraywordBank.length;index++)
+  	      			{
+  	      				if(arraywordBankPriority[index]>max)
+  	      				{
+  	      					max=arraywordBankPriority[index];   
+  	      					disp1ind[x]=index;	
+  	      				}
+  	      			}
+  	      			r[x]=arraywordBank[disp1ind[x]];
+  	      			arraywordBank.splice(disp1ind[x],1);
+  	      			arraywordBankPriority.splice(disp1ind[x],1);
+  	      		}
+  	      		success(r);
+  	      	}
+  		}	
 	  		
       // not so self explanitory but close if ammending is false then it will iterate the algorithums uasage count
 	  // also speach is for the speach inclusion functionel
     
-	  
-	amendwordBank(wordBank,wordBankPriority)
-	{
-		let words = this.props.buffer.getText();
-		let jso,json;
-		let storingwordBank=[],storingPriority=[];
-		let returningArr=[];
-		let index=0;
-		let word=words.split(' ');
-		for(let x=0;x<word.length;x++)
+		  
+		function amendwordBank(wordBank,wordBankPriority)
 		{
-				word[x]=word[x].replace(".","");
-				word[x]=word[x].replace("?","");
-				word[x]=word[x].replace("_","");
-				if(wordBank.includes(word[x]))
-				{
-					wordBankPriority[wordBank.indexOf(word[x])]++;
-				}
-				else
-				{
-					returningArr[index]=word[x];
-					index++;
-				}
+			let words = this.props.buffer.getText();
+			let jso,json;
+			let storingwordBank=[],storingPriority=[];
+			let returningArr=[];
+			let index=0;
+			let word=words.split(' ');
+			for(let x=0;x<word.length;x++)
+			{
+					word[x]=word[x].replace(".","");
+					word[x]=word[x].replace("?","");
+					word[x]=word[x].replace("_","");
+					if(wordBank.includes(word[x]))
+					{
+						wordBankPriority[wordBank.indexOf(word[x])]++;
+					}
+					else
+					{
+						returningArr[index]=word[x];
+						index++;
+					}
+			}
+				return returningArr;
 		}
-			return returningArr;
 	}
-}
 	//END GUESS GENERATION
 
-	//REACT STUFF
-	componentWillReceiveProps(props) {
-		switch(props.mode) {
-			case "letters":
-				this.labelLength = 4;
-				break;
-			case "phrases":
-				this.labelLength = 16;
-				break;
+	//RC- given an action string, finds the associated function from either the function store or the props and returns it.
+	getFunc(action) {
+		let f = this.functions[action];
+		if(f == null && this.props.functions) {
+			f = this.props.functions[action];
 		}
+		if(f == null) {
+			f = this.props[action];
+		}
+		if(f == null) {
+			console.error("could not find action: " + action.toString())
+		}
+		return f;
 	}
+	//REACT STUFF
 	//For all the following buttons, pos is the position in the commboard button array and display is what is displayed on the UI
+
 	//RC- render a React function button.
 	renderFunctionButton(pos, display, func) {
 		return (<Button
@@ -386,6 +614,7 @@ class CommBoard extends React.Component {
 			func={() => {func(); this.generateGuesses(true,"",false);}}
 			ref={(i) => this.buttons[pos] = i} />);
 	}
+
 	//RC- render a React text button
 	renderTextButton(pos, display, value) {//value is what is passed to the buffer
 		let func = () => {this.props.buffer.write(value, "letter"); this.generateGuesses(true,"",false);};
@@ -396,25 +625,16 @@ class CommBoard extends React.Component {
 			func={func}
 			ref={(i) => this.buttons[pos] = i} />);
 	}
-	//RC
-	renderLetterButtons(row) {
-		const FIRST_LETTER_ROW = 1;
-		let r = [];
-		r[0] = <td key={row * this.columns}>{this.renderTextButton(row * this.columns, (row + 1 - FIRST_LETTER_ROW).toString(), "")}</td>;
 
-		for(let i = 1; i < this.columns; i++) {
-			let pos = row * this.columns + i;
-			r[i] = <td key={pos}>{this.renderLetterButton(pos, this.state.letters[(row - FIRST_LETTER_ROW) * this.columns + i])}</td>;
-		}
-		return r;
-	}
 	//RC
 	renderLetterButton(pos, value) {
 		return this.renderTextButton(pos, value, value);
 	}
+
 	//RC- write the guess label, then iterate through the guesses and render each as a button across the row
 	renderGuessButtons(row) {
 		let r = [];
+		
 		r[0] = <td key={row * this.columns}>{this.renderTextButton(row * this.columns, "Guess", "")}</td>;
 		for(let i = 1; i < this.columns; i++) {
 			let word = this.state.guesses[i - 1] || " ";
@@ -423,6 +643,7 @@ class CommBoard extends React.Component {
 		}
 		return r;
 	}
+
 	//RC
 	renderGuessButton(pos, word) {
 		let func = () => {this.props.buffer.write(word, "word"); this.generateGuesses(true,"",false);};
@@ -433,71 +654,74 @@ class CommBoard extends React.Component {
 			func={func}
 			ref={(i) => this.buttons[pos] = i} />);
 	}
-	//RC
-	renderRow(i) {
-		if(i == 0) { //render the guess row.
+
+	//RC-render a row at position rowi according to rowLayout
+	//if ignoreTitle is true, don't render the row title
+	renderRow(rowi, rowLayout, ignoreTitle = false) {
+		if(rowLayout.title == "Guess") { //render the guess row.
 			return (
-				<tr style={[this.state.rowHL == i && styles.highlightedRow]}>
-					{this.renderGuessButtons(i)}
-				</tr>
-				);
+				<tr key={rowi} style={[this.state.rowHL == rowi && styles.highlightedRow]}>
+					{this.renderGuessButtons(rowi)}
+				</tr>);
 		}
 
-		if(i == 6) { //render the function row.
-			let rowOffset = i * this.columns;
-			return (
-				<tr style={[this.state.rowHL == i && styles.highlightedRow]}>
-				<td>{this.renderTextButton(rowOffset++, i.toString(), "")}</td>
-					<td>{this.renderFunctionButton(rowOffset++, "Speak", () => {this.props.buffer.executeAction("read", () => 1);this.generateGuesses(false,'',false);this.props.stop();})}</td>
-					
-					<td>{this.renderFunctionButton(rowOffset++, "Phrases", () => this.props.phrMode())}</td>
-					<td>{this.renderTextButton(rowOffset++, "Space", " ")}</td>
-					<td>{this.renderFunctionButton(rowOffset++, "Delete", () => this.props.buffer.executeAction("delete", () => 1))}</td>
-					<td>{this.renderFunctionButton(rowOffset++, "Clear", () => this.props.buffer.executeAction("clear", () => 1))}</td>
-					<td>{this.renderFunctionButton(rowOffset++, "Multilanguage", ()=>this.generateGuesses(false,'',true))}</td>
-				</tr>
-				);
+		let r = [];
+		if(!ignoreTitle) {
+			r[0] = <td key={rowi * this.columns}>{this.renderTextButton(rowi * this.columns, rowLayout.title, "")}</td>
 		}
+		let buttons = rowLayout.buttons;
 
-		//render a row of letters.
+		for(let i = 0; i < buttons.length; i++) {
+			let pos = rowi * this.columns + i + 1;
+			let ri = (ignoreTitle) ? i : i + 1;
+
+			switch(buttons[i].mode) {
+				case "simple":
+					r[ri] = <td key={pos}>{this.renderLetterButton(pos, buttons[i].text)}</td>;
+					break;
+				case "complex":
+					r[ri] = <td key={pos}>{this.renderTextButton(pos, buttons[i].label, buttons[i].text)}</td>;
+					break;
+				case "function":
+					let func = this.getFunc(buttons[i].action);
+					r[ri] = <td key={pos}>{this.renderFunctionButton(pos, buttons[i].label, func)}</td>;
+					break;
+				default:
+					console.error("invalid button type: " + buttons[i].mode.toString());
+			}
+		}
 		return (
-			<tr style={[this.state.rowHL == i && styles.highlightedRow]}>
-				{this.renderLetterButtons(i)}
-			</tr>);
+			<tr key={rowi} style={[this.state.rowHL == rowi && styles.highlightedRow]}>
+					{r}
+				</tr>);
 	}
-	render() {
-		switch(this.props.mode) {
-		case "letters":
-			return(
-				<div style={[styles.container]}>
-					<table style={[styles.table]}><tbody>
-						{this.renderRow(0)}
-						{this.renderRow(1)}
-						{this.renderRow(2)}
-						{this.renderRow(3)}
-						{this.renderRow(4)}
-						{this.renderRow(5)}
-						{this.renderRow(6)}
-					</tbody></table>
-				</div>);
-			break;
-		case "phrases":
-			return(
-				<div style={[styles.container]}>
-					<table style={[styles.table]}><tbody>
-						<tr><td>{this.renderTextButton(0, phrases[0], phrases[0])}</td><td>{this.renderTextButton(1, phrases[1], phrases[1])}</td></tr>
-						<tr><td>{this.renderTextButton(2, phrases[2], phrases[2])}</td><td>{this.renderTextButton(3, phrases[3], phrases[3])}</td></tr>
-						<tr><td>{this.renderTextButton(4, phrases[4], phrases[4])}</td><td>{this.renderTextButton(5, phrases[5], phrases[5])}</td></tr>
-						<tr><td>{this.renderTextButton(6, phrases[6], phrases[6])}</td><td>{this.renderTextButton(7, phrases[7], phrases[7])}</td></tr>
-						<tr><td>{this.renderTextButton(8, phrases[8], phrases[8])}</td><td>{this.renderTextButton(9, phrases[9], phrases[9])}</td></tr>
-						<tr><td>{this.renderTextButton(10, phrases[10], phrases[10])}</td><td>{this.renderFunctionButton(11, "Back", () => this.props.letMode())}</td></tr>
-					</tbody></table>
-				</div>);
-			break;
-		default:
 
+	renderBoard(layout) {
+		let r = [];
+		let rows = this.rows = layout.rows;
+		this.columns = layout.columns;
+		this.labelLength = layout.labelLength;
+
+		for(let i = 0; i < rows; i++) {
+			r[i] = this.renderRow(i, layout.layout[i], layout.ignoreRowTitles);
 		}
+		return r;
+	}
+
+	render() {
+		return(
+			<div style={[styles.container]}>
+				<table style={[styles.table]}><tbody>
+					{this.renderBoard(this.props.layout)}
+				</tbody></table>
+			</div>);
+
 	}
 }
 
-module.exports = Radium(CommBoard);
+module.exports = {
+	CommBoard: Radium(CommBoard),
+	layout_en: layout_en,
+	layout_es: layout_es,
+	layout_phrases: layout_phrases,
+};
