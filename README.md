@@ -28,3 +28,11 @@ then, you can enter the following to start:
 ```
 ./node_modules/.bin/electron .
 ```
+## Building the program
+
+You can create the .exe from the source code by typing the following command
+```
+npm run build
+```
+
+
