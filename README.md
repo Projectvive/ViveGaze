@@ -39,4 +39,4 @@ You can create the .exe from the source code by typing the following command
 npm run build
 ```
 
-
+A 'dist' file will be created in the directory with folders made specifically for various types of OS
