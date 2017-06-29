@@ -30,6 +30,10 @@ then, you can enter the following to start:
 ```
 ## Building the program
 
+First Install electron-zip-packager in the command prompt while in the appropriate directory
+```
+npm install electron-zip-packager
+```
 You can create the .exe from the source code by typing the following command
 ```
 npm run build
