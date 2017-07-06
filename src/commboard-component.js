@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Radium from "radium";
 const bs = require('browser-storage');
-const jQuery = require("jquery");
+
 
 const langEN= [
 	//english
@@ -237,7 +237,7 @@ class CommBoard extends React.Component {
 		}
 		if(props.buffer) {
 			Object.assign(this.functions, {
-				read: () => {props.buffer.executeAction("read", () => 1); this.props.stop();},
+				read: () => {props.buffer.executeAction("read", () => 1);this.generateGuesses(false,"",false); this.props.stop();},
 				delete: () => props.buffer.executeAction("delete", () => 1),
 				clear: () => props.buffer.executeAction("clear", () => 1)});
 		}
@@ -376,6 +376,8 @@ class CommBoard extends React.Component {
 	//END SCANNING FUNCTIONS
 
 	//GUESS GENERATION
+	
+	
 	generateGuesses(switcher,amend,merge) 
 	{
  	  	const NUM_GUESSES = this.columns;
@@ -452,14 +454,14 @@ class CommBoard extends React.Component {
       		{
       	   		WordSearch(text,(data,status)=>{
       	   			let guesses=data;
-      	   			this.setState({guesses: guesses}),()=> console.log(status)},() => console.log("cannot find words."));
+      	   			this.setState({guesses: guesses}),()=> console.log(status),setTimeout(1000*this.props.scanSpeed)},() => console.log("cannot find words."));
       		}	   
       	}
 	  	else
 	  	{
 		  	if(merge)
     	  	{
-    		  	let text = this.props.buffer.getText().split(" ").slice(-1)[0].slice(0, -1);
+    		  	let text = this.props.buffer.getText();
     			let defaltwordBank;
 				switch(text)
 				{
@@ -487,8 +489,9 @@ class CommBoard extends React.Component {
     	 	}
     	  	else
     		{
+				let text = this.props.buffer.getText();
     			let amend=[];
-    			amend =  this.amendwordBank(wordBank,wordBankPriority);
+    			amend =  amendwordBank(wordBank,wordBankPriority,text);
     			if (amend.length>0)
     			{
     				for(let x=0;x<amend.length;x++)
@@ -560,9 +563,9 @@ class CommBoard extends React.Component {
 	  // also speach is for the speach inclusion functionel
     
 		  
-		function amendwordBank(wordBank,wordBankPriority)
+		function amendwordBank(wordBank,wordBankPriority,words)
 		{
-			let words = this.props.buffer.getText();
+			
 			let jso,json;
 			let storingwordBank=[],storingPriority=[];
 			let returningArr=[];
