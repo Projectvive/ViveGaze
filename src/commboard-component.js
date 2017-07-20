@@ -237,12 +237,14 @@ class CommBoard extends React.Component {
 		}
 		if(props.buffer) {
 			Object.assign(this.functions, {
-				read: () => {props.buffer.executeAction("read", () => 1);this.generateGuesses(false,"",false); this.props.stop();},
+				read: () => {props.buffer.executeAction("read", () => 1);this.generateGuesses(false,"",false); 
+				this.getFunc("stop")(); this.paused = true;},
 				delete: () => props.buffer.executeAction("delete", () => 1),
 				clear: () => props.buffer.executeAction("clear", () => 1)});
 		}
 		this.labelLength = props.layout.labelLength;
 		this.scanstate = "stopped";
+		this.paused = false; 
 		this.scaniterations = 0;
 		this.state = {
 			guesses: [],
@@ -257,12 +259,22 @@ class CommBoard extends React.Component {
 	getState() {
 		return this.scanstate;
 	}
+	getPaused(){
+		//this.paused = resume;
+		return this.paused;
+	}
+	setPaused(resume){
+		this.paused = resume;
+	}
 
 	//RC- start a new scan if there isn't one already running
 	startScan() {
 		if(this.scanstate == "stopped") {
 			this.scanstate = "rows";
 			this.proceed();
+			if(this.paused){
+				this.paused = false; 
+			}
 		}
 	}
 
@@ -271,7 +283,7 @@ class CommBoard extends React.Component {
 		this.clearHighlight();
 		this.scanstate = "stopped";
 	}
-
+	
 	//RC- stop scanning buttons and scan rows, or back out of phrase mode, or just stop scanning
 	backOut() {
 		this.scaniterations = 0;
@@ -291,12 +303,16 @@ class CommBoard extends React.Component {
 
 	//RC- if a scan is running, proceed to the next step of the scan
 	proceed() {
+		let timeout; 
 		//RC- proceed to the next row
-		if(this.scanstate == "rows") {
+		if(this.scanstate == "rows" && this.paused == false) {
 			if(this.state.rowHL == null) {
-				return this.highlightRow(0);
+				this.waitForGuess = true; 
+				this.highlightRow(0);
+				//timeout = setTimeout(() => {;}, 1500);					
 			} 
-			else {
+			else if(this.scanstate == "rows" && this.paused == false){
+				clearTimeout(timeout);
 				let nextrow = this.state.rowHL + 1;
 
 				//RC- loop back
@@ -313,20 +329,27 @@ class CommBoard extends React.Component {
 		} 
 
 		//RC- proceed to the next button
-		else if(this.scanstate == "buttons") {
+		else if(this.scanstate == "buttons" && this.paused == false) {
 			let nextbutton = this.state.buttonHL + 1;
 			//RC- loop back
 			if(nextbutton >= (this.state.rowHL + 1) * this.columns) {
 				nextbutton = this.columns * this.state.rowHL + 1;
 				this.scaniterations++;
-			}
+			} 
 			//RC- skip blank spaces(blanks must all be at the end of a row)
 			let button = this.highlightButton(nextbutton);
-			if(button == null) {
+			
+			try{		
+				if(button.value == " ") {
 				nextbutton = this.columns * this.state.rowHL + 1;
 				button = this.highlightButton(nextbutton);
 				this.scaniterations++;
+				}
 			}
+			catch(err){
+				console.log("scan paused!");
+			}
+			
 			if(this.scaniterations >= 3) {
 				this.backOut();
 			}
@@ -337,15 +360,26 @@ class CommBoard extends React.Component {
 
 	//RC- highlight a given row (0 based index)
 	highlightRow(i) {
-		this.setState({rowHL: i,
-			buttonHL: i * this.columns});
-		return this.buttons[i * this.columns];
+		if(!this.pasued && !this.waitForGuess){
+			this.setState({rowHL: i,
+				buttonHL: i * this.columns});
+			return this.buttons[i * this.columns];
+		}else if(!this.pasued && this.waitForGuess){
+			this.setState({rowHL: i,
+				buttonHL: i * this.columns});
+			console.log("wait for guess");
+			this.waitForGuess = false;
+			window.setTimeout(() => {return this.buttons[i * this.columns];}, 5000);
+			
+		}			
 	}
 
 	//RC- highlight the button at position i
 	highlightButton(i) {
-		this.setState({buttonHL: i});
-		return this.buttons[i];
+		if(!this.paused){
+			this.setState({buttonHL: i});
+			return this.buttons[i];
+		}
 	}
 
 	//RC

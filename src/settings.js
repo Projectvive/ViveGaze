@@ -4,8 +4,12 @@ const bs = require('browser-storage');
 
 // Words used in program and translations
 const languages = ["english", "spanish","portuguese"]; //enumerate available languages here
+const operatingModes = ["blinkMode", "clickMode"];
 
 const langEN = { //English do keep this alphabetized
+    operatingMode: "Operating Mode",
+	blinkMode: "Blink Mode",
+	clickMode: "Click Mode",
 	blinkSpeed: "Blink Speed",
 	capture: "Capture",
 	closeEye: "Please hold your eye shut",
@@ -29,6 +33,9 @@ const langEN = { //English do keep this alphabetized
 }
 //Added by MEM 3/28/2017
 const langES = { //Spanish do keep this alphabetized
+    operatingMode: "Modo operative",
+	blinkMode: "Modo de parpadeo",
+	clickMode: "Modo de clic",
 	blinkSpeed: "Velocidad de parpadeo",
 	capture: "Captura",
 	closeEye: "Por favor cierra su ojo",
@@ -51,6 +58,9 @@ const langES = { //Spanish do keep this alphabetized
 	videofeed: "Video en vivo"
 }
 const langPOR={ //portuguese
+	operatingMode: "Modo operacional",
+	blinkMode: "Modo intermitente",
+	clickMode: "Modo de clique",
 	blinkSpeed: "Velocidade de piscar",
 	capture: " Captura",
 	closeEye: "Por favor, aguarde a fechada de olho",
@@ -79,8 +89,10 @@ function settings() {
 	//default settings
 	let prefs={
 		lang: "english",
+		opMode: "blinkMode",
 		scanSpeed: 2,
 		gazeSpeed: .2,
+		
 	}
 	//pull settings data from local storage and apply it
 	let data = bs.getItem('settings');
@@ -93,7 +105,11 @@ function settings() {
 
 		get gazeSpeed() {return prefs.gazeSpeed},
 		set gazeSpeed(v) {prefs.gazeSpeed = v; update();},
-
+		
+		get opMode() {return prefs.opMode},
+		set opMode(v) {prefs.opMode = v; update();},
+		
+	
 		get languages() {return languages;},
 		get language() {return prefs.lang},
 		set language(v) {prefs.lang = v; update();},

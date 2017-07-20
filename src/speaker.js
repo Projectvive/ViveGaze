@@ -64,7 +64,6 @@ function speaker() {
         }
 
         window.speechSynthesis.cancel()
-
         let utterance = speakSync(text);
         utterance.addEventListener("end", afterRead);
         utterancehandle = utterance;
@@ -80,6 +79,7 @@ function speaker() {
     }
 
     let risingTone = new Audio('rise.mp3');
+	let fallingTone = new Audio('fall.mp3');
     let tonePlaying = false;
     let timeout;
 
@@ -89,18 +89,32 @@ function speaker() {
         const fudge = 50;
 
         if(!tonePlaying) {
+            //timeout = setTimeout(() => {toneStop(); beep(600, 100);}, duration - fudge);
+			timeout = setTimeout(() => {risingTone.pause(); beep(600, 100);fallingTone.play();}, duration - fudge);
+            risingTone.play();
+            tonePlaying = true;
+        }
+    }
+	
+	//PK add a seperate calibration tone to aviod fallingtone bug
+	function calibrationTone(duration) {
+        const fudge = 50;
+        if(!tonePlaying) {
             timeout = setTimeout(() => {toneStop(); beep(600, 100);}, duration - fudge);
             risingTone.play();
             tonePlaying = true;
         }
     }
 
+
     //Ryan Campbell 2/27/2017
     //Silence the rising tone.
     function toneStop() {
         clearTimeout(timeout);
         risingTone.pause();
+		fallingTone.pause();
         risingTone.currentTime = 0;
+		fallingTone.currentTime = 0; 
         tonePlaying = false;
     }
 
@@ -113,7 +127,8 @@ function speaker() {
              speakAsync,
              beep,
              toneStart,
-             toneStop };
+             toneStop, 
+			 calibrationTone};
 }
 
 // Exports.

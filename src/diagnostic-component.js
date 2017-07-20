@@ -14,9 +14,11 @@ class Diagnostics extends React.Component {
       scanSliderValue: this.settings.scanSpeed,
       gazeSliderValue: this.settings.gazeSpeed,
       language: this.settings.language,
+	  operatingModeValue: this.settings.opMode,
       lastEventLength: null
+	  
     }
-
+	console.log(this.state.operatingModeValue);
   }
   //RC- update settings ui without changing the actual settings(to save disk writes)
   update(elem) {
@@ -26,6 +28,9 @@ class Diagnostics extends React.Component {
         break;
       case "gazespeed":
         this.setState({gazeSliderValue: this.gazeSlider.value});
+        break;
+	  case "setMode":
+        this.setState({operatingModeValue: this.operatingMode.value});
         break;
       default:
         console.log("update: unidendified setting: " + elem);
@@ -46,6 +51,12 @@ class Diagnostics extends React.Component {
         this.setState({language: this.langSelector.value});
         this.settings.language = this.langSelector.value;
         break;
+		case "setMode":
+		this.setState({operatingModeValue: this.modeSelector.value});
+		this.settings.opMode = this.modeSelector.value;
+		console.log(this.settings.opMode);
+       
+       break;
       default:
         console.log("set: unidendified setting: " + elem);
     }
@@ -65,6 +76,8 @@ class Diagnostics extends React.Component {
   componentDidMount() {
     this.scanSlider.value = this.state.scanSliderValue;
     this.gazeSlider.value = this.state.gazeSliderValue;
+	this.modeSelector.value = this.state.operatingModeValue;
+	console.log(this.state.operatingModeValue);
     this.langSelector.value = this.state.language;
   }
   populateLanguageSelector() {
@@ -75,11 +88,27 @@ class Diagnostics extends React.Component {
     }
     return r;
   }
+  populateModeSelector() {
+    let s = [];
+    let ns = this.settings.operatingModes;
+    for(let j = 0; j < ns.length; j++) {
+      s[j] = <option key={j} value={ns[j]}>{this.props.lang[ns[j]]}</option>
+    }
+    return s;
+  }
 	render() {
 		return (
       <div>
   			<div id="generalSettings" >
           <h4>{this.props.lang.settings}</h4>
+		  <span>{this.props.lang.operatingMode}</span>
+		  <br/>
+          <select name="operatingModeValue" ref={(i) => this.modeSelector = i} onChange={() => this.set("setMode")}>
+            //<option value="blinkMode">{this.props.lang.blinkMode}</option>
+            //<option value="clickMode">{this.props.lang.clickMode}</option>
+          </select> 
+		  </div>
+          <br/>
           <span>{this.props.lang.scanSpeed}: {this.state.scanSliderValue}</span>
           <div id="scanSliderContainer">
             <div id="scanSliderValue"></div>
@@ -98,7 +127,7 @@ class Diagnostics extends React.Component {
             {this.populateLanguageSelector()}
           </select>
         </div>
-      </div>
+      //</div>
 		);
 	}
 }
