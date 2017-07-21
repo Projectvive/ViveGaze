@@ -136,12 +136,12 @@ const layout_es = {title: "letters", rows: 7, columns: 8,
 			{mode: "simple", text: "ú"},
 			{mode: "simple", text: "ñ"}]},
 		{title: "6", buttons: [
-			{mode: "function", label: "Speak", read: "speak", action: "read"},
-			{mode: "complex", text: " ", label: "Space", read: "space"},
-			{mode: "function", label: "Phrases", read: "phrases", action: "phrasemode"},
-			{mode: "function", label: "Delete", read: "delete", action: "delete"},
-			{mode: "function", label: "Clear", read: "clear", action: "clear"},
-			{mode: "function", label: "Stop", read: "stop", action: "stop"}]}]};
+			{mode: "function", label: "Hablar", read: "speak", action: "read"},
+			{mode: "complex", text: " ", label: "Espacio", read: "space"},
+			{mode: "function", label: "Frases", read: "phrases", action: "phrasemode"},
+			{mode: "function", label: "Borrar", read: "delete", action: "delete"},
+			{mode: "function", label: "Limpiar", read: "clear", action: "clear"},
+			{mode: "function", label: "Detener", read: "stop", action: "stop"}]}]};
 
 const layout_phrases = {title: "phrases", rows: 5, columns: 3, 
 	//RC- labelLength is the longest a string of m...m can be inside a button without having to use a smaller font
