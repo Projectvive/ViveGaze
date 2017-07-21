@@ -244,7 +244,7 @@ class CommBoard extends React.Component {
 		}
 		this.labelLength = props.layout.labelLength;
 		this.scanstate = "stopped";
-		this.paused = false; 
+		this.paused = true; 
 		this.scaniterations = 0;
 		this.state = {
 			guesses: [],
@@ -360,11 +360,11 @@ class CommBoard extends React.Component {
 
 	//RC- highlight a given row (0 based index)
 	highlightRow(i) {
-		if(!this.pasued && !this.waitForGuess){
+		if(!this.paused && !this.waitForGuess){
 			this.setState({rowHL: i,
 				buttonHL: i * this.columns});
 			return this.buttons[i * this.columns];
-		}else if(!this.pasued && this.waitForGuess){
+		}else if(!this.paused && this.waitForGuess){
 			this.setState({rowHL: i,
 				buttonHL: i * this.columns});
 			console.log("wait for guess");
