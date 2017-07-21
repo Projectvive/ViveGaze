@@ -88,7 +88,7 @@ function settings() {
 	
 	//default settings
 	let prefs={
-		lang: "english",
+		lang: "spanish",
 		opMode: "blinkMode",
 		scanSpeed: 2,
 		gazeSpeed: .2,

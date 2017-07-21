@@ -36,7 +36,7 @@ class App extends React.Component {
 			buf: buffer(this.sp),
 			language:set.language,
 			det: null,
-			cblayout: CommBoard.layout_en,
+			cblayout: CommBoard.layout_es,
 			fontSize: Math.floor((window.innerWidth / 1420) * 100).toString() + "%"
 		}
 
