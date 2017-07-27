@@ -27,6 +27,7 @@ class App extends React.Component {
 		this.stopped = true;
 		this.scanSpeed = set.scanSpeed;
 		this.startKeyListen = true; 
+		//this.gyroStart = false;
 		this.opMode = set.opMode;
 
 		this.state = {
@@ -36,7 +37,7 @@ class App extends React.Component {
 			buf: buffer(this.sp),
 			language:set.language,
 			det: null,
-			cblayout: CommBoard.layout_es,
+			cblayout: CommBoard.layout_en,
 			fontSize: Math.floor((window.innerWidth / 1420) * 100).toString() + "%"
 		}
 
@@ -72,16 +73,16 @@ class App extends React.Component {
 	}
 	//PK functions for key stroke event listener 
 	keydownListener(aCode){ 
-	if(this.state.settings.opMode == "clickMode"){
-		if(aCode == 220) {		
-			if(this.startKeyListen){
-				this.keydownStart = new Date(); 
-				this.startKeyListen = false;
-				console.log("here");
+		if(this.state.settings.opMode == "clickMode"){
+			if(aCode == 220) {		
+				if(this.startKeyListen){
+					this.keydownStart = new Date(); 
+					this.startKeyListen = false;
+					console.log("here");
+				}
+				this.sp.toneStart(this.state.settings.gazeSpeed * 1000);
 			}
-			this.sp.toneStart(this.state.settings.gazeSpeed * 1000);
 		}
-	}
 	}
 	keyupListener(aCode){
 		if(this.state.settings.opMode == "clickMode"){		
@@ -93,32 +94,53 @@ class App extends React.Component {
 				let programStarted = false; 
 				this.stopTone();
 				console.log(this.keystrokeLength);
-			if((this.keystrokeLength > LONG_GAZE - fudge)) {
-				if(this.scan != null) {
+				
+				if((this.keystrokeLength > LONG_GAZE - fudge)) {
+					if(this.scan != null) {
 					window.clearInterval(this.scan);
 					window.clearTimeout(this.scan);
 					this.scan = null;
 					this.startScan();
-				}
+					}
 				this.longGaze();
 
-			} else if(this.keystrokeLength > this.state.settings.gazeSpeed * 1000 - fudge) {
-				if(this.scan != null) {
-					window.clearInterval(this.scan);
-					window.clearTimeout(this.scan);
-					this.scan = null; 
-					this.startScan();
+				} else if(this.keystrokeLength > this.state.settings.gazeSpeed * 1000 - fudge) {
+					if(this.scan != null) {
+						window.clearInterval(this.scan);
+						window.clearTimeout(this.scan);
+						this.scan = null; 
+						this.startScan();
 					//this.scan = window.setTimeout(() => {this.scan = null; this.startScan()}, 1000 * this.scanSpeed);
+					}
+					this.gaze();
+				//window.setTimeout(() => this.startScan(), 1000 * this.scanSpeed);
+
+				} else {
+					this.resumeScan();
 				}
+			}			
+		}
+		
+		if(this.state.settings.opMode == "gyroMode"){		
+			if(aCode == 220) {
+				this.sp.beep(600, 100);
+				let programStarted = false; 
+				this.stopTone();
+				window.clearInterval(this.scan);
+				window.clearTimeout(this.scan);
+				this.scan = null; 
+				this.startScan();
 				this.gaze();
 				//window.setTimeout(() => this.startScan(), 1000 * this.scanSpeed);
 
 			} else {
 				this.resumeScan();
 			}
-			}			
+						
 		}
 	}
+	
+	
 	/*keystrokeLen(){
 		document.addEventListener('keydown',(event) => {this.keydownListener(event.keyCode);}); 
 		document.addEventListener('keyup',(event) => {this.keyupListener(event.keyCode);});
@@ -129,6 +151,7 @@ class App extends React.Component {
 	detectorBeginListener() {
 		this.pauseScan();
 	}
+	
 	//RC- listen for gazeEnd events from the detector.
 	detectorEndListener() {
 		
@@ -136,7 +159,7 @@ class App extends React.Component {
 		
 		
 		if(this.state.settings.opMode == "blinkMode"){
-			const LONG_GAZE = 2000;
+		const LONG_GAZE = 2000;
 		const fudge = 10;
 		let programStarted = false; 
 		let length = this.state.det.getLastEvent();
@@ -190,8 +213,10 @@ class App extends React.Component {
 		
 		if(this.state.opMode != this.state.settings.opMode) {//maybe change the language
 		    //console.log(this.state.settings.opMode);
-			this.setState = this.state.settings.opMode;
+			this.opMode = this.state.settings.opMode;
 			this.stop(); 
+			console.log(this.opMode);
+			
 			//({opMode: this.state.settings.opMode, operatingMode: this.state.settings.operatingMode});
 		}
 		
@@ -227,8 +252,9 @@ class App extends React.Component {
 			this.state.det.removeEndListener(this.stopTone);
 			this.state.det.removeEndListener(this.detectorEndListener);
 		}
-		this.stopped = true;
+		this.stopped = true;	 
 		this.stopScan();
+		this.commBoard.gyroStart = false;
 	}
 	
 	//END LISTENERS
@@ -255,18 +281,94 @@ class App extends React.Component {
 	
 	//RC- do a selection on a row or button.
 	gaze() {
-		if(!this.commBoard.getPaused()){
-			let button = this.commBoard.select();
-			this.sp.toneStop();
+		if(this.state.settings.opMode == "gyroMode"){
+			//console.log("here");
+			//console.log(this.commBoard.getPaused());
+			this.paused = this.commBoard.getPaused();
+			
+			console.log("whole thing");
+			console.log(this.commBoard.gyroStart);
+			
+			if((!this.commBoard.paused) && (this.commBoard.gyroStart)){
+				let button = this.commBoard.select();
+				this.sp.toneStop();
+				
 		 
-			try{		
-				this.sp.speakAsync(button.value, () => 1);
-			}
-			catch(err){
+				try{		
+					this.sp.speakAsync(button.value, () => 1);
+				}
+				catch(err){
+					this.startScan();
+				}
+			}else if(!this.commBoard.gyroStart){
+				//this.commBoard.setPaused(false); 	
+				this.commBoard.setPaused(false); 
+				this.sp.beep(350, 500);
 				this.startScan();
+				console.log("here in gaze");
+				this.commBoard.gyroStart = true; 
 			}
-		}
+			console.log(this.commBoard.gyroStart);
+			
+		}else{
+			//console.log("here in select");
+			console.log(this.commBoard.paused);
+                			
+			if(!this.commBoard.paused){
+				let button = this.commBoard.select();
+				this.sp.toneStop();
+				
+		 
+				try{		
+					this.sp.speakAsync(button.value, () => 1);
+				}
+				catch(err){
+					this.startScan();
+				}
+			}
+		}		
 	}
+	
+	/*if(this.state.settings.opMode == "gyroMode"){
+			//console.log("here");
+			console.log(this.commBoard.getPaused());
+			this.paused = this.commBoard.getPaused();
+			
+			if(((this.commBoard.getState() == "stopped")||(this.paused))&&!this.gyroStart){
+				//this.commBoard.setPaused(false); 	
+				this.commBoard.setPaused(false); 
+				this.sp.beep(350, 500);
+				this.startScan();
+				console.log("here");
+				this.gyroStart = true; 
+			}
+			
+			if(!this.commBoard.getPaused && this.gyroStart){
+				let button = this.commBoard.select();
+				this.sp.toneStop();
+		 
+				try{		
+					this.sp.speakAsync(button.value, () => 1);
+				}
+				catch(err){
+					this.startScan();
+				}
+			}
+		
+		}else{		
+			if(!this.commBoard.getPaused){
+				let button = this.commBoard.select();
+				this.sp.toneStop();
+				console.log("here");
+		 
+				try{		
+					this.sp.speakAsync(button.value, () => 1);
+				}
+				catch(err){
+					this.startScan();
+				}
+			}
+		}	*/	
 
 	//RC- move to the next row or the next button in the scan.
 	proceed() {
@@ -298,8 +400,13 @@ class App extends React.Component {
 	startScan() {
 		if(this.scan == null) {
 			this.commBoard.startScan();
-			this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
-		
+			/*if(this.commBoard.state.guesses[0] != " "){
+				window.setTimeout(() => {this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);}, 10000);
+				console.log("not null");
+			}else{*/
+				this.scan = window.setInterval(() => this.proceed(), 1000 * this.scanSpeed);
+				console.log(this.commBoard.state.guesses[0]);
+			
 		}
 	}
 	//RC

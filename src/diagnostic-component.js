@@ -104,8 +104,9 @@ class Diagnostics extends React.Component {
 		  <span>{this.props.lang.operatingMode}</span>
 		  <br/>
           <select name="operatingModeValue" ref={(i) => this.modeSelector = i} onChange={() => this.set("setMode")}>
-            //<option value="blinkMode">{this.props.lang.blinkMode}</option>
-            //<option value="clickMode">{this.props.lang.clickMode}</option>
+             <option value="blinkMode">{this.props.lang.blinkMode}</option>
+             <option value="clickMode">{this.props.lang.clickMode}</option>
+			 <option value="gyroMode">{this.props.lang.gyroMode}</option>
           </select> 
 		  </div>
           <br/>

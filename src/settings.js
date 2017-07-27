@@ -4,12 +4,13 @@ const bs = require('browser-storage');
 
 // Words used in program and translations
 const languages = ["english", "spanish","portuguese"]; //enumerate available languages here
-const operatingModes = ["blinkMode", "clickMode"];
+const operatingModes = ["blinkMode", "clickMode", "gyroMode"];
 
 const langEN = { //English do keep this alphabetized
     operatingMode: "Operating Mode",
 	blinkMode: "Blink Mode",
 	clickMode: "Click Mode",
+	gyroMode: "Gyro Mode",
 	blinkSpeed: "Blink Speed",
 	capture: "Capture",
 	closeEye: "Please hold your eye shut",
@@ -36,6 +37,7 @@ const langES = { //Spanish do keep this alphabetized
     operatingMode: "Modo operative",
 	blinkMode: "Modo de parpadeo",
 	clickMode: "Modo de clic",
+	gyroMode: "Gyro Mode",
 	blinkSpeed: "Velocidad de parpadeo",
 	capture: "Captura",
 	closeEye: "Por favor cierra su ojo",
@@ -61,6 +63,7 @@ const langPOR={ //portuguese
 	operatingMode: "Modo operacional",
 	blinkMode: "Modo intermitente",
 	clickMode: "Modo de clique",
+	gyroMode: "Gyro Mode",
 	blinkSpeed: "Velocidade de piscar",
 	capture: " Captura",
 	closeEye: "Por favor, aguarde a fechada de olho",
@@ -88,7 +91,7 @@ function settings() {
 	
 	//default settings
 	let prefs={
-		lang: "spanish",
+		lang: "english",
 		opMode: "blinkMode",
 		scanSpeed: 2,
 		gazeSpeed: .2,
