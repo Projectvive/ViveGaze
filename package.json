@@ -16,7 +16,7 @@
     "browser-storage": "0.0.2",
     "browserify": "^14.1.x",
     "electron": "^1.6.x",
-    "jquery": "^2.2.4",
+    "jquery": "^3.5.0",
     "jquery-ui": "1.10.5",
     "nodemailer": "^2.3.0",
     "radium": "^0.18.x",
