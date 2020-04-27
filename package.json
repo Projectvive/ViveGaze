@@ -17,7 +17,7 @@
     "browserify": "^14.1.x",
     "electron": "^1.6.x",
     "jquery": "^2.2.4",
-    "jquery-ui": "1.10.5",
+    "jquery-ui": "1.12.1",
     "nodemailer": "^2.3.0",
     "radium": "^0.18.x",
     "react": "^15.4.x",
