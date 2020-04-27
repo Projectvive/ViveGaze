@@ -1,12 +1,12 @@
-# Wedjat
+# Vive Gaze
 
-Wedjat is an app designed to aid communication for individuals with disabilities.
+Vive Gaze is a javascript app designed to aid communication for individuals with disabilities through gaze detection. 
 
 ## Installation
 
 ### Prerequisites
 
-Wedjat requires [Node.js](http://nodejs.org/)
+Vive Gaze requires [Node.js](http://nodejs.org/)
 
 ### Package dependencies
 
