@@ -2,8 +2,8 @@
 const EventEmitter = require("events");
 const bs = require('browser-storage');
 
-// Words used in program and translations
-const languages = ["english", "spanish","portuguese"]; //enumerate available languages here
+// Words used in program and translations, other constant and languages should be added inline
+const languages = ["english", "spanish","portuguese"]; //Enumerate available languages here
 
 const langEN = { //English do keep this alphabetized
 	blinkSpeed: "Blink Speed",
